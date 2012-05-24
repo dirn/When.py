@@ -11,10 +11,6 @@ To get the system time zone's name::
 
     when.timezone()
 
-To get the system time zone as an object::
-
-    when.timezone_object()
-
 To get the current date::
 
     when.today()
@@ -27,30 +23,28 @@ To get yesterday's date::
 
     when.yesterday()
 
-To convert to a different timezone::
+To get a datetime one year from now::
 
-    when.travel(value, from_tz='America/New_York')  # to UTC
-    when.travel(value, to_tz='America/New_York')  # from UTC
+    when.future(years=1)
+
+To convert to a different time zone::
+
+    when.shift(value, from_tz='America/New_York', to_tz='UTC')
 
 To get the current time::
 
     when.now()
-    when.now(utc=True)
 
-Times can be forced to UTC with::
+Full documentation can be found on `Read the Docs`._
 
-    when.set_utc()
-
-To go back to the system's timezone::
-
-    when.unset_utc()
+.. _Read the Docs: http://readthedocs.org/docs/whenpy/en/latest/
 
 Installation
 ============
 
 Installing When.py is easy::
 
-    pip install when
+    pip install whenpy
 
 or download the source and run::
 
