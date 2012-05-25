@@ -35,7 +35,7 @@ To get the current time::
 
     when.now()
 
-Full documentation can be found on `Read the Docs`._
+Full documentation can be found on `Read the Docs`_.
 
 .. _Read the Docs: http://readthedocs.org/docs/whenpy/en/latest/
 
