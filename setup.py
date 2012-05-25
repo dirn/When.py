@@ -30,8 +30,8 @@ settings.update(
     classifiers=(
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
-        'Natural Language :: English',
         'License :: OSI Approved :: BSD License',
+        'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: Python 2.6',
