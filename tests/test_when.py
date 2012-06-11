@@ -89,8 +89,13 @@ class WhenTest(unittest.TestCase):
         self.assertEqual(second, self.utc)
 
         # Local time
-        first = when.shift(self.now, to_tz='UTC')
-        second = when.shift(first, from_tz='UTC')
+        if self.timezone == 'UTC':
+            # This block is needed for tests run in an environment set to UTC.
+            first = when.shift(self.now, to_tz='America/New_York')
+            second = when.shift(first, from_tz='America/New_York')
+        else:
+            first = when.shift(self.now, to_tz='UTC')
+            second = when.shift(first, from_tz='UTC')
 
         self.assertNotEqual(first, second)
         self.assertNotEqual(first, self.now)
