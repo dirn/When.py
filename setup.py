@@ -25,6 +25,8 @@ settings.update(
     author_email='dirn@dirnonline.com',
     url='https://github.com/dirn/when.py',
     packages=['when'],
+    package_data={'': ['LICENSE']},
+    include_package_data=True,
     install_requires=['pytz'],
     license=open('LICENSE').read(),
     classifiers=(
