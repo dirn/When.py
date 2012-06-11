@@ -2,6 +2,8 @@
 When.py: Friendly Dates and Times
 =================================
 
+.. image:: https://secure.travis-ci.org/dirn/When.py.png?branch=master
+
 User-friendly functions to help perform common date and time actions.
 
 Usage
