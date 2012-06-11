@@ -26,7 +26,7 @@ class WhenTest(unittest.TestCase):
         self.now = datetime.datetime.now()
         self.utc = datetime.datetime.utcnow()
 
-        self.timezone = os.getenv('TIMEZONE', 'UTC')
+        self.timezone = os.getenv('TIMEZONE', 'America/New_York')
 
     def test__add_time(self):
         # Test change between months with dfferent number of days
