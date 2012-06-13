@@ -203,8 +203,6 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     ``utc`` parameter is set to ``True`` or ``set_utc()`` has been called,
     however, UTC will be used instead.
 
-    At this time, time zone aware datetimes are not supported.
-
     .. versionadded:: 0.1.0
     """
     # Check for a from timezone
