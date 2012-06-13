@@ -18,7 +18,7 @@ if sys.argv[-1] == 'publish':
 
 settings.update(
     name='whenpy',
-    version='0.1.0',
+    version='0.1.1',
     description='Friendly Dates and Times',
     long_description=open('README.rst').read(),
     author='Andy Dirnberger',
