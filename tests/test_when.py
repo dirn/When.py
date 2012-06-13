@@ -5,6 +5,7 @@ import unittest
 
 import datetime
 import os
+import re
 import sys
 import pytz
 
@@ -26,7 +27,15 @@ class WhenTest(unittest.TestCase):
         self.now = datetime.datetime.now()
         self.utc = datetime.datetime.utcnow()
 
-        self.timezone = os.getenv('TIMEZONE', 'America/New_York')
+        env_timezone = os.getenv('TIMEZONE')
+
+        if env_timezone:
+            self.timezone = env_timezone
+        elif os.path.exists('/etc/localtime'):
+            localtime_path = os.path.realpath('/etc/localtime')
+            self.timezone = re.findall('([^/]*/[^/]*)$', localtime_path)[0]
+        else:
+            self.timezone = 'America/New_York'
 
     def test__add_time(self):
         # Test change between months with dfferent number of days
