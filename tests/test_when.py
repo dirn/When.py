@@ -173,58 +173,58 @@ class WhenTest(unittest.TestCase):
         self.assertEqual(when.yesterday(), self.today - self.one_day)
 
     def test_how_many_leap_days(self):
-        date1 = datetime.datetime(2012,2,28)
-        date2 = datetime.datetime(2012,2,29)
+        date1 = datetime.datetime(2012, 2, 28)
+        date2 = datetime.datetime(2012, 2, 29)
         self.assertEqual(when.how_many_leap_days(date1, date2), 1)
-        date1 = datetime.datetime(2012,2,28)
-        date2 = datetime.datetime(2016,2,28)
+        date1 = datetime.datetime(2012, 2, 28)
+        date2 = datetime.datetime(2016, 2, 28)
         self.assertEqual(when.how_many_leap_days(date1, date2), 1)
-        date1 = datetime.datetime(2012,2,28)
-        date2 = datetime.datetime(2020,2,28)
+        date1 = datetime.datetime(2012, 2, 28)
+        date2 = datetime.datetime(2020, 2, 28)
         self.assertEqual(when.how_many_leap_days(date1, date2), 2)
-        date1 = datetime.datetime(2012,2,28)
-        date2 = datetime.datetime(2020,2,29)
+        date1 = datetime.datetime(2012, 2, 28)
+        date2 = datetime.datetime(2020, 2, 29)
         self.assertEqual(when.how_many_leap_days(date1, date2), 3)
-        date1 = datetime.datetime(2011,2,28)
-        date2 = datetime.datetime(2011,3,22)
+        date1 = datetime.datetime(2011, 2, 28)
+        date2 = datetime.datetime(2011, 3, 22)
         self.assertEqual(when.how_many_leap_days(date1, date2), 0)
-        date1 = datetime.datetime(2012,2,28)
-        date2 = datetime.datetime(2026,2,28)
+        date1 = datetime.datetime(2012, 2, 28)
+        date2 = datetime.datetime(2026, 2, 28)
         self.assertEqual(when.how_many_leap_days(date1, date2), 4)
 
     def test_future_months(self):
-        nums = [random.randint(1,1000) for range_index in xrange(1000)]
+        nums = [random.randint(1, 1000) for range_index in xrange(1000)]
         for num in nums:
             future = when.future(months=num)
-            now_plus = when.now() + self.one_month*num
+            now_plus = when.now() + self.one_month * num
 
             self.assertTrue(
-                (now_plus - future) < self.one_day*3*num)
+                (now_plus - future) < self.one_day * 3 * num)
 
     def test_future_years(self):
-        nums = [random.randint(1,1000) for range_index in xrange(1000)]
+        nums = [random.randint(1, 1000) for range_index in xrange(1000)]
         for num in nums:
             future = when.future(years=num)
             leap_days = when.how_many_leap_days(self.now, future)
-            now_plus = when.now() + self.one_day*(num*365+leap_days)
+            now_plus = when.now() + self.one_day * (num * 365 + leap_days)
             self.assertTrue(now_plus - future < self.one_second)
 
 
     def test_past_months(self):
-        nums = [random.randint(1,1000) for range_index in xrange(1000)]
+        nums = [random.randint(1, 1000) for range_index in xrange(1000)]
         for num in nums:
             past = when.past(months=num)
-            now_minus = when.now() - self.one_month*num
+            now_minus = when.now() - self.one_month * num
 
             self.assertTrue(
-                (past - now_minus) < self.one_day*3*num)
+                (past - now_minus) < self.one_day * 3 * num)
 
     def test_past_years(self):
-        nums = [random.randint(1,1000) for range_index in xrange(1000)]
+        nums = [random.randint(1, 1000) for range_index in xrange(1000)]
         for num in nums:
             past = when.past(years=num)
             leap_days = when.how_many_leap_days(past, self.now)
-            now_plus = when.now() - self.one_day*(num*365+leap_days)
+            now_plus = when.now() - self.one_day * (num * 365 + leap_days)
             self.assertTrue(past - now_plus < self.one_second)
 
 

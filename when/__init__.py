@@ -97,21 +97,21 @@ def how_many_leap_days(t1, t2):
     .. versionadded:: 0.1.x
     """
 
-    _is_leap_year = lambda x: (x%4 == 0 and x%100 != 0) or x%400 == 0
+    _is_leap_year = lambda x: (x % 4 == 0 and x % 100 != 0) or x % 400 == 0
 
     count = 0
 
     if t1.month <= 2 and t1.day <= 28:
         if _is_leap_year(t1.year):
-            count +=1
+            count += 1
 
     if t2.month >= 2 and t2.day > 28 and t1.year != t2.year:
         if _is_leap_year(t1.year):
-            count +=1
+            count += 1
 
-    for year in xrange(t1.year+1, t2.year):
+    for year in xrange(t1.year + 1, t2.year):
         if _is_leap_year(year):
-            count +=1
+            count += 1
 
     return count
 
