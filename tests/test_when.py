@@ -128,19 +128,9 @@ class WhenTest(unittest.TestCase):
         self.assertEqual(second, self.utc)
 
     def test_timezone(self):
-        # This test is tricky. In order for it to pass, the time zone needs to
-        # be known ahead of time. When I run these tests locally, that's
-        # America/New_York. If I have the tests run on travis-ci.org, that's
-        # UTC. I've added an optional environment setting called TIMEZONE to
-        # all this to be manually set. By default, UTC will be used.
         self.assertEqual(when.timezone(), self.timezone)
 
     def test_timezone_object(self):
-        # This test is tricky. In order for it to pass, the time zone needs to
-        # be known ahead of time. When I run these tests locally, that's
-        # America/New_York. If I have the tests run on travis-ci.org, that's
-        # UTC. I've added an optional environment setting called TIMEZONE to
-        # all this to be manually set. By default, UTC will be used.
         local_timezone = pytz.timezone(self.timezone)
         self.assertEqual(when.timezone_object(), local_timezone)
 
