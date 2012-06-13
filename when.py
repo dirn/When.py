@@ -203,7 +203,8 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     ``utc`` parameter is set to ``True`` or ``set_utc()`` has been called,
     however, UTC will be used instead.
 
-    .. versionadded:: 0.1.0
+    .. versionchanged:: 0.2.0
+       Added support for ``value`` as a time zone aware datetime
     """
     # Check for a from timezone
     # If the datetime is time zone aware, its time zone should be used. If it's
