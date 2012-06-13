@@ -127,6 +127,27 @@ class WhenTest(unittest.TestCase):
         self.assertNotEqual(first, self.utc)
         self.assertEqual(second, self.utc)
 
+    def test_shift_aware(self):
+        central = pytz.timezone('America/Chicago')
+
+        now_aware = central.localize(self.now)
+
+        # Make sure the datetime's time zone is the respected
+        first = when.shift(now_aware, to_tz='America/New_York')
+        second = when.shift(self.now, from_tz='America/Chicago', to_tz='America/New_York')
+
+        self.assertEqual(first, second)
+
+        # Also make sure the from_tz parameter is ignored
+        first = when.shift(now_aware, from_tz='UTC', to_tz='America/New_York')
+
+        self.assertEqual(first, second)
+
+        # Also make sure the utc parameter is ignored
+        first = when.shift(now_aware, to_tz='America/New_York', utc=True)
+
+        self.assertEqual(first, second)
+
     def test_timezone(self):
         self.assertEqual(when.timezone(), self.timezone)
 

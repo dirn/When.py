@@ -192,29 +192,36 @@ def set_utc():
 def shift(value, from_tz=None, to_tz=None, utc=False):
     """Convert a datetime from one time zone to another.
 
-    ``value`` will be converted from the time zone specified by ``from_tz`` to
-    the time zone specified by ``to_tz``. This values can either be strings
+    ``value`` will be converted from its time zone (when it is time zone aware)
+    or the time zone specified by ``from_tz`` (when it is time zone naive) to
+    the time zone specified by ``to_tz``. These values can either be strings
     containing the name of the time zone (see ``pytz.all_timezones`` for a list
     of all supported values) or a ``datetime.tzinfo`` object.
 
-    If no value is provided for either ``from_tz`` or ``to_tz``, the current
-    system time zone will be used. If the ``utc`` parameter is set to ``True``
-    or ``set_utc()`` has been called, however, UTC will be used instead.
+    If no value is provided for either ``from_tz`` (when ``value`` is time zone
+    naive) or ``to_tz``, the current system time zone will be used. If the
+    ``utc`` parameter is set to ``True`` or ``set_utc()`` has been called,
+    however, UTC will be used instead.
 
     At this time, time zone aware datetimes are not supported.
 
     .. versionadded:: 0.1.0
     """
     # Check for a from timezone
-    if not from_tz:
-        if _FORCE_UTC or utc:
-            from_tz = pytz.UTC
-        else:
-            from_tz = timezone_object()  # Use the system's time zone
+    # If the datetime is time zone aware, its time zone should be used. If it's
+    # naive, from_tz must be supplied.
+    if value.tzinfo is not None:
+        from_tz = value.tzinfo
     else:
-        if not isinstance(from_tz, datetime.tzinfo):
-            # This will raise pytz.UnknownTimeZoneError
-            from_tz = pytz.timezone(from_tz)
+        if not from_tz:
+            if _FORCE_UTC or utc:
+                from_tz = pytz.UTC
+            else:
+                from_tz = timezone_object()  # Use the system's time zone
+        else:
+            if not isinstance(from_tz, datetime.tzinfo):
+                # This will raise pytz.UnknownTimeZoneError
+                from_tz = pytz.timezone(from_tz)
 
     # Check for a to timezone
     if not to_tz:
@@ -230,7 +237,13 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     if from_tz == to_tz:
         return value
 
-    return from_tz.localize(value).astimezone(to_tz).replace(tzinfo=None)
+    # If the datetime is time zone naive, pytz provides a convenient way to
+    # covert it to time zone aware. Using replace() directly on the datetime
+    # results in losing an hour when converting ahead.
+    if value.tzinfo is None:
+        value = from_tz.localize(value)
+
+    return value.astimezone(to_tz).replace(tzinfo=None)
 
 
 def timezone():
