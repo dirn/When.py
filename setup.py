@@ -24,7 +24,7 @@ settings.update(
     author='Andy Dirnberger',
     author_email='dirn@dirnonline.com',
     url='https://github.com/dirn/When.py',
-    packages=['when'],
+    py_modules=['when'],
     package_data={'': ['LICENSE']},
     include_package_data=True,
     install_requires=['pytz'],
