@@ -18,13 +18,13 @@ if sys.argv[-1] == 'publish':
 
 settings.update(
     name='whenpy',
-    version='0.1.0',
+    version='0.2.0',
     description='Friendly Dates and Times',
     long_description=open('README.rst').read(),
     author='Andy Dirnberger',
     author_email='dirn@dirnonline.com',
-    url='https://github.com/dirn/when.py',
-    packages=['when'],
+    url='https://github.com/dirn/When.py',
+    py_modules=['when'],
     package_data={'': ['LICENSE']},
     include_package_data=True,
     install_requires=['pytz'],
@@ -38,6 +38,8 @@ settings.update(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.1',
+        'Programming Language :: Python :: 3.2',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ),
 )
