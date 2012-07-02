@@ -1,4 +1,4 @@
-When.py 0.2.0
+When.py 0.3.0
 ===================================
 
 When.py provides user-friendly functions to help perform common date and time
