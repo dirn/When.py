@@ -119,6 +119,19 @@ def common_timezones_set():
     return pytz.common_timezones_set
 
 
+def format(value, format_string):
+    """Get a formatted version of a datetime.
+
+    This is a wrapper for ``strftime()``. The full list of directives that can
+    be used can be found at
+    http://docs.python.org/library/datetime.html#strftime-strptime-behavior.
+
+    .. versionadded:: 0.3.0
+    """
+
+    return value.strftime(format_string)
+
+
 def future(years=0, months=0, weeks=0, days=0,
            hours=0, minutes=0, seconds=0, milliseconds=0, microseconds=0,
            utc=False):

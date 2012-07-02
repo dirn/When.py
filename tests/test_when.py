@@ -73,6 +73,30 @@ class WhenTest(unittest.TestCase):
         result = when._add_time(test_value, years=-1)
         self.assertEqual(result, expected_value)
 
+    def test_format(self):
+        now = when.now()
+        today = when.today()
+        current_time = now.time()
+
+        for format_string in ('%a', '%A', '%b', '%B', '%c', '%d', '%f', '%H',
+                              '%I', '%j', '%m', '%M', '%p', '%S', '%U', '%w',
+                              '%W', '%x', '%X', '%y', '%Y', '%z', '%Z',
+                              '%A, %B %d, %Y %I:%M %p'):
+            # Test date objects
+            builtin_date = now.strftime(format_string)
+            result_date = when.format(now, format_string)
+            self.assertEqual(builtin_date, result_date)
+
+            # Test datetime objects
+            builtin_datetime = today.strftime(format_string)
+            result_datetime = when.format(today, format_string)
+            self.assertEqual(builtin_datetime, result_datetime)
+
+            # Test time objects
+            builtin_time = current_time.strftime(format_string)
+            result_time = when.format(current_time, format_string)
+            self.assertEqual(builtin_time, result_time)
+
     def test_now(self):
         now = when.now()
         utc = when.now(True)
