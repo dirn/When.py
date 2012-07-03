@@ -94,6 +94,8 @@ def all_timezones():
 
     This is a wrapper for ``pytz.all_timezones``.
 
+    :returns: list -- all time zones.
+
     .. versionadded:: 0.1.0
     """
     return pytz.all_timezones
@@ -103,6 +105,8 @@ def all_timezones_set():
     """Get a set of all time zones.
 
     This is a wrapper for ``pytz.all_timezones_set``.
+
+    :returns: set -- all time zones.
 
     .. versionadded:: 0.1.0
     """
@@ -114,6 +118,8 @@ def common_timezones():
 
     This is a wrapper for ``pytz.common_timezones``.
 
+    :returns: list -- common time zones.
+
     .. versionadded:: 0.1.0
     """
     return pytz.common_timezones
@@ -123,6 +129,8 @@ def common_timezones_set():
     """Get a set of common time zones.
 
     This is a wrapper for ``pytz.common_timezones_set``.
+
+    :returns: set -- common time zones.
 
     .. versionadded:: 0.1.0
     """
@@ -341,6 +349,8 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
 def timezone():
     """Get the name of the current system time zone.
 
+    :returns: str -- the name of the system time zone.
+
     .. versionadded:: 0.1.0
     """
     def _inner():
@@ -436,6 +446,8 @@ def timezone_object(tz_name=None):
 def today():
     """Get a date representing the current date.
 
+    :returns: datetime.date -- the current date.
+
     .. versionadded:: 0.1.0
     """
     return datetime.date.today()
@@ -443,6 +455,8 @@ def today():
 
 def tomorrow():
     """Get a date representing tomorrow's date.
+
+    :returns: datetime.date -- the current date plus one day.
 
     .. versionadded:: 0.1.0
     """
@@ -464,6 +478,8 @@ def unset_utc():
 
 def yesterday():
     """Get a date representing yesterday's date.
+
+    :returns: datetime.date -- the current date minus one day.
 
     .. versionadded:: 0.1.0
     """
