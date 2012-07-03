@@ -136,13 +136,12 @@ def format(value, format_string):
     be used can be found at
     http://docs.python.org/library/datetime.html#strftime-strptime-behavior.
 
-    Args:
-        value: A datetime object.
-        format_string: A string specifying the directinos to use for formatting
-            the datetime.
-
-    Raises:
-        AssertionError: Value is not a valid datetime object.
+    :param value: A datetime object.
+    :type value: datetime.datetime, datetime.date, datetime.time.
+    :param format_string: A string specifying formatting the directives to use.
+    :type format_string: str.
+    :returns: str -- the formatted datetime.
+    :raises: AssertionError
 
     .. versionadded:: 0.3.0
     """
@@ -165,6 +164,28 @@ def future(years=0, months=0, weeks=0, days=0,
     If the ``utc`` parameter is set to ``True`` or ``set_utc()`` has been
     called, the datetime will be based on UTC instead.
 
+    :param years: The number of years to add.
+    :type years: int.
+    :param months: The number of months to add.
+    :type months: int.
+    :param weeks: The number of weeks to add.
+    :type weeks: int.
+    :param days: The number of days to add.
+    :type days: int.
+    :param hours: The number of hours to add.
+    :type hours: int.
+    :param minutes: The number of minutes to add.
+    :type minutes: int.
+    :param seconds: The number of seconds to add.
+    :type seconds: int.
+    :param milliseconds: The number of milliseconds to add.
+    :type milliseconds: int.
+    :param microseconds: The number of microseconds to add.
+    :type microseconds: int.
+    :param utc: Whether or not to use UTC instead of local time.
+    :type utc: bool.
+    :returns: datetime.datetime -- the calculated datetime.
+
     .. versionadded:: 0.1.0
     """
     return _add_time(now(utc), years=years, months=months, weeks=weeks,
@@ -178,6 +199,10 @@ def now(utc=False):
     By default ``now()`` will return the datetime in the system's local time.
     If the ``utc`` parameter is set to ``True`` or ``set_utc()`` has been
     called, the datetime will be based on UTC instead.
+
+    :param utc: Whether or not to use UTC instead of local time.
+    :type utc: bool.
+    :returns: datetime.datetime -- the current datetime.
 
     .. versionadded:: 0.1.0
     """
@@ -199,6 +224,28 @@ def past(years=0, months=0, weeks=0, days=0,
     By default ``past()`` will return the datetime in the system's local time.
     If the ``utc`` parameter is set to ``True`` or ``set_utc()`` has been
     called, the datetime will be based on UTC instead.
+
+    :param years: The number of years to subtract.
+    :type years: int.
+    :param months: The number of months to subtract.
+    :type months: int.
+    :param weeks: The number of weeks to subtract.
+    :type weeks: int.
+    :param days: The number of days to subtract.
+    :type days: int.
+    :param hours: The number of hours to subtract.
+    :type hours: int.
+    :param minutes: The number of minutes to subtract.
+    :type minutes: int.
+    :param seconds: The number of seconds to subtract.
+    :type seconds: int.
+    :param milliseconds: The number of milliseconds to subtract.
+    :type milliseconds: int.
+    :param microseconds: The number of microseconds to subtract.
+    :type microseconds: int.
+    :param utc: Whether or not to use UTC instead of local time.
+    :type utc: bool.
+    :returns: datetime.datetime -- the calculated datetime.
 
     .. versionadded:: 0.1.0
     """
@@ -235,6 +282,17 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     naive) or ``to_tz``, the current system time zone will be used. If the
     ``utc`` parameter is set to ``True`` or ``set_utc()`` has been called,
     however, UTC will be used instead.
+
+    :param value: A datetime object.
+    :type value: datetime.datetime, datetime.date, datetime.time.
+    :param from_tz: The time zone to shift from.
+    :type from_tz: datetime.tzinfo, str.
+    :param to_tz: The time zone to shift to.
+    :type to_tz: datetime.tzinfo, str.
+    :param utc: Whether or not to use UTC instead of local time.
+    :type utc: bool.
+    :returns: datetime.datetime -- the calculated datetime.
+    :raises: AssertionError
 
     .. versionchanged:: 0.3.0
        Added AssertionError for invalid values of ``value``
@@ -366,7 +424,9 @@ def _timezone_from_etc_timezone():
 def timezone_object(tz_name=None):
     """Get the current system time zone.
 
-    This returns a ``datetime.tzinfo`` instance.
+    :param tz_name: The name of the time zone.
+    :type tz_name: str.
+    :returns: datetime.tzinfo -- the time zone, defaults to system time zone.
 
     .. versionadded:: 0.1.0
     """
