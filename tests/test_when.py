@@ -74,8 +74,7 @@ class WhenTest(unittest.TestCase):
         self.assertEqual(result, expected_value)
 
     def test__add_time_assert(self):
-        with self.assertRaises(AssertionError):
-            when._add_time('a')
+        self.assertRaises(AssertionError, when._add_time, 'a')
 
     def test__is_date_type(self):
         self.assertFalse(when._is_date_type('a'))
@@ -111,8 +110,7 @@ class WhenTest(unittest.TestCase):
             self.assertEqual(builtin_time, result_time)
 
     def test_format_assert(self):
-        with self.assertRaises(AssertionError):
-            when.format('a', '%a')
+        self.assertRaises(AssertionError, when.format, 'a', '%a')
 
     def test_now(self):
         now = when.now()
@@ -169,8 +167,7 @@ class WhenTest(unittest.TestCase):
         self.assertEqual(second, self.utc)
 
     def test_shift_assert(self):
-        with self.assertRaises(AssertionError):
-            when.shift('a')
+        self.assertRaises(AssertionError, when.shift, 'a')
 
     def test_shift_aware(self):
         central = pytz.timezone('America/Chicago')
