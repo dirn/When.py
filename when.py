@@ -19,6 +19,8 @@ _FORCE_UTC = False
 
 def _add_time(value, years=0, months=0, weeks=0, days=0,
               hours=0, minutes=0, seconds=0, milliseconds=0, microseconds=0):
+    assert _is_date_type(value)
+
     # If any of the standard timedelta values are used, use timedelta for them.
     if seconds or minutes or hours or days or weeks:
         delta = datetime.timedelta(weeks=weeks, days=days, hours=hours,
@@ -79,6 +81,14 @@ def _add_time(value, years=0, months=0, weeks=0, days=0,
     return value
 
 
+def _is_date_type(value):
+    # Acceptible types are:
+    #    datetime.datetime
+    #    datetime.date
+    #    datetime.time
+    return isinstance(value, (datetime.date, datetime.datetime, datetime.time))
+
+
 def all_timezones():
     """Get a list of all time zones.
 
@@ -126,8 +136,18 @@ def format(value, format_string):
     be used can be found at
     http://docs.python.org/library/datetime.html#strftime-strptime-behavior.
 
+    Args:
+        value: A datetime object.
+        format_string: A string specifying the directinos to use for formatting
+            the datetime.
+
+    Raises:
+        AssertionError: Value is not a valid datetime object.
+
     .. versionadded:: 0.3.0
     """
+
+    assert _is_date_type(value)
 
     return value.strftime(format_string)
 
@@ -216,9 +236,11 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     ``utc`` parameter is set to ``True`` or ``set_utc()`` has been called,
     however, UTC will be used instead.
 
-    .. versionchanged:: 0.2.0
-       Added support for ``value`` as a time zone aware datetime
+    .. versionchanged:: 0.3.0
+       Added AssertionError for invalid values of ``value``
     """
+    assert _is_date_type(value)
+
     # Check for a from timezone
     # If the datetime is time zone aware, its time zone should be used. If it's
     # naive, from_tz must be supplied.
