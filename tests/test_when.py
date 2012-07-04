@@ -87,7 +87,7 @@ class WhenTest(unittest.TestCase):
 
     def test_ever(self):
         old_result = None
-        for i in xrange(50):
+        for i in range(50):
             result = when.ever()
             self.assertTrue(isinstance(result, datetime.datetime))
             self.assertNotEqual(result, old_result)
