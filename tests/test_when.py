@@ -85,6 +85,14 @@ class WhenTest(unittest.TestCase):
         self.assertTrue(when._is_date_type(self.now))
         self.assertTrue(when._is_date_type(self.now.time()))
 
+    def test_ever(self):
+        old_result = None
+        for i in xrange(50):
+            result = when.ever()
+            self.assertTrue(isinstance(result, datetime.datetime))
+            self.assertNotEqual(result, old_result)
+            old_result = result
+
     def test_format(self):
         now = when.now()
         today = when.today()

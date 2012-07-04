@@ -10,6 +10,7 @@ import calendar
 import datetime
 import os
 import pytz
+import random
 
 # Some functions may take a parameter to designate a return value in UTC
 # instead of local time.  This will be used to force them to return UTC
@@ -136,6 +137,36 @@ def common_timezones_set():
     """
     return pytz.common_timezones_set
 
+
+def ever():
+    """Get a random datetime.
+
+    Instead of using ``datetime.MINYEAR`` and ``datetime.MAXYEAR`` as the
+    bounds, the current year +/- 100 is used. The thought behind this is that
+    years that are too extreme will not be as useful.
+
+    :returns: datetime.datetime -- a random datetime.
+
+    .. versionadded:: 0.3.0
+    """
+    # Get the year bounds
+    min_year = max(datetime.MINYEAR, today().year - 100)
+    max_year = min(datetime.MAXYEAR, today().year + 100)
+
+    # Get the random values
+    year = random.randint(min_year, max_year)
+    month = random.randint(1, 12)
+    day = random.randint(1, calendar.mdays[month])
+    hour = random.randint(0, 23)
+    minute = random.randint(0, 59)
+    second = random.randint(0, 59)
+    microsecond = random.randint(0, 1000000)
+
+    return datetime.datetime(year=year, month=month, day=day, hour=hour,
+                             minute=minute, second=second,
+                             microsecond=microsecond)
+
+    print year, month, day
 
 def format(value, format_string):
     """Get a formatted version of a datetime.
