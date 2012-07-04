@@ -166,7 +166,6 @@ def ever():
                              minute=minute, second=second,
                              microsecond=microsecond)
 
-    print year, month, day
 
 def format(value, format_string):
     """Get a formatted version of a datetime.
