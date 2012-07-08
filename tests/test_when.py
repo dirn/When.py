@@ -176,6 +176,7 @@ class WhenTest(unittest.TestCase):
 
     def test_shift_assert(self):
         self.assertRaises(AssertionError, when.shift, 'a')
+        self.assertRaises(AssertionError, when.shift, when.today())
 
     def test_shift_aware(self):
         central = pytz.timezone('America/Chicago')

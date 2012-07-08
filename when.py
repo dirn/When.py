@@ -321,7 +321,7 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     however, UTC will be used instead.
 
     :param value: A datetime object.
-    :type value: datetime.datetime, datetime.date, datetime.time.
+    :type value: datetime.datetime, datetime.time.
     :param from_tz: The time zone to shift from.
     :type from_tz: datetime.tzinfo, str.
     :param to_tz: The time zone to shift to.
@@ -334,7 +334,7 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     .. versionchanged:: 0.3.0
        Added AssertionError for invalid values of ``value``
     """
-    assert _is_date_type(value)
+    assert hasattr(value, 'tzinfo')
 
     # Check for a from timezone
     # If the datetime is time zone aware, its time zone should be used. If it's
