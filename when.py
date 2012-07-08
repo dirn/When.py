@@ -83,11 +83,10 @@ def _add_time(value, years=0, months=0, weeks=0, days=0,
 
 
 def _is_date_type(value):
-    # Acceptible types are:
-    #    datetime.datetime
+    # Acceptible types must be or extend:
     #    datetime.date
     #    datetime.time
-    return isinstance(value, (datetime.date, datetime.datetime, datetime.time))
+    return isinstance(value, (datetime.date, datetime.time))
 
 
 def all_timezones():
