@@ -120,6 +120,40 @@ class WhenTest(unittest.TestCase):
     def test_format_assert(self):
         self.assertRaises(AssertionError, when.format, 'a', '%a')
 
+    def test_is_timezone_aware(self):
+        naive = when.now()
+        aware = naive.replace(tzinfo=pytz.UTC)
+
+        self.assertTrue(when.is_timezone_aware(aware))
+        self.assertFalse(when.is_timezone_aware(naive))
+
+        naive = naive.time()
+        aware = naive.replace(tzinfo=pytz.UTC)
+
+        self.assertTrue(when.is_timezone_aware(aware))
+        self.assertFalse(when.is_timezone_aware(naive))
+
+    def test_is_timezone_aware_assert(self):
+        today = when.today()
+        self.assertRaises(AssertionError, when.is_timezone_aware, today)
+
+    def test_is_timezone_naive(self):
+        naive = when.now()
+        aware = naive.replace(tzinfo=pytz.UTC)
+
+        self.assertTrue(when.is_timezone_naive(naive))
+        self.assertFalse(when.is_timezone_naive(aware))
+
+        naive = naive.time()
+        aware = naive.replace(tzinfo=pytz.UTC)
+
+        self.assertTrue(when.is_timezone_naive(naive))
+        self.assertFalse(when.is_timezone_naive(aware))
+
+    def test_is_timezone_aware_naive(self):
+        today = when.today()
+        self.assertRaises(AssertionError, when.is_timezone_aware, today)
+
     def test_now(self):
         now = when.now()
         utc = when.now(True)

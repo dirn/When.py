@@ -230,6 +230,36 @@ def future(years=0, months=0, weeks=0, days=0,
                      milliseconds=milliseconds, microseconds=microseconds)
 
 
+def is_timezone_aware(value):
+    """Check if a datetime is time zone aware.
+
+    `is_timezone_aware()` is the inverse of `is_timezone_naive()`.
+
+    :param value: A valid datetime object.
+    :type value: datetime.datetime, datetime.time
+    :returns: bool -- if the object is time zone aware.
+
+    .. versionadded:: 0.3.0
+    """
+    assert hasattr(value, 'tzinfo')
+    return value.tzinfo is not None and value.tzinfo.utcoffset(value) is not None
+
+
+def is_timezone_naive(value):
+    """Check if a datetime is time zone naive.
+
+    `is_timezone_naive()` is the inverse of `is_timezone_aware()`.
+
+    :param value: A valid datetime object.
+    :type value: datetime.datetime, datetime.time
+    :returns: bool -- if the object is time zone naive.
+
+    .. versionadded:: 0.3.0
+    """
+    assert hasattr(value, 'tzinfo')
+    return value.tzinfo is None or value.tzinfo.utcoffset(value) is None
+
+
 def now(utc=False):
     """Get a datetime representing the current date and time.
 
@@ -339,7 +369,7 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     # Check for a from timezone
     # If the datetime is time zone aware, its time zone should be used. If it's
     # naive, from_tz must be supplied.
-    if value.tzinfo is not None:
+    if is_timezone_aware(value):
         from_tz = value.tzinfo
     else:
         if not from_tz:
@@ -369,7 +399,7 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     # If the datetime is time zone naive, pytz provides a convenient way to
     # covert it to time zone aware. Using replace() directly on the datetime
     # results in losing an hour when converting ahead.
-    if value.tzinfo is None:
+    if is_timezone_naive(value):
         value = from_tz.localize(value)
 
     return value.astimezone(to_tz).replace(tzinfo=None)
