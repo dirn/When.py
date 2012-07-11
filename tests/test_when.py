@@ -38,6 +38,7 @@ class WhenTest(unittest.TestCase):
             self.timezone = 'America/New_York'
 
     def test__add_time(self):
+        """Test when._add_time()"""
         # Test change between months with dfferent number of days
         test_value = datetime.datetime(2012, 3, 31)
 
@@ -74,9 +75,11 @@ class WhenTest(unittest.TestCase):
         self.assertEqual(result, expected_value)
 
     def test__add_time_assert(self):
+        """Test AssertionError raised by when._add_time()"""
         self.assertRaises(AssertionError, when._add_time, 'a')
 
     def test__is_date_type(self):
+        """Test when._is_date_type()"""
         self.assertFalse(when._is_date_type('a'))
         self.assertFalse(when._is_date_type(1))
         self.assertFalse(when._is_date_type(['a']))
@@ -86,26 +89,31 @@ class WhenTest(unittest.TestCase):
         self.assertTrue(when._is_date_type(self.now.time()))
 
     def test_all_timezones(self):
+        """Test when.all_timezones()"""
         # Make sure all_timezones() matches pytz's version
         all_timezones = when.all_timezones()
         self.assertEqual(all_timezones, pytz.all_timezones)
 
     def test_all_timezones_set(self):
+        """Test when.all_timezones_set()"""
         # Make sure all_timezones_set() matches pytz's version
         all_timezones_set = when.all_timezones_set()
         self.assertEqual(all_timezones_set, pytz.all_timezones_set)
 
     def test_common_timezones(self):
+        """Test when.common_timezones()"""
         # Make sure common_timezones() matches pytz's version
         common_timezones = when.common_timezones()
         self.assertEqual(common_timezones, pytz.common_timezones)
 
     def test_common_timezones_set(self):
+        """Test when.common_timezones_set()"""
         # Make sure common_timezones_set() matches pytz's version
         common_timezones_set = when.common_timezones_set()
         self.assertEqual(common_timezones_set, pytz.common_timezones_set)
 
     def test_ever(self):
+        """Test when.ever()"""
         old_result = None
         for i in range(50):
             result = when.ever()
@@ -114,6 +122,7 @@ class WhenTest(unittest.TestCase):
             old_result = result
 
     def test_format(self):
+        """Test when.format()"""
         now = when.now()
         today = when.today()
         current_time = now.time()
@@ -138,9 +147,11 @@ class WhenTest(unittest.TestCase):
             self.assertEqual(builtin_time, result_time)
 
     def test_format_assert(self):
+        """Test AssertionError raised by when.format()"""
         self.assertRaises(AssertionError, when.format, 'a', '%a')
 
     def test_is_timezone_aware(self):
+        """Test when.is_timezone_aware()"""
         naive = when.now()
         aware = naive.replace(tzinfo=pytz.UTC)
 
@@ -154,10 +165,12 @@ class WhenTest(unittest.TestCase):
         self.assertFalse(when.is_timezone_aware(naive))
 
     def test_is_timezone_aware_assert(self):
+        """Test AssertionError raised by when.is_timezone_aware()"""
         today = when.today()
         self.assertRaises(AssertionError, when.is_timezone_aware, today)
 
     def test_is_timezone_naive(self):
+        """Test when.is_timezone_naive()"""
         naive = when.now()
         aware = naive.replace(tzinfo=pytz.UTC)
 
@@ -171,10 +184,12 @@ class WhenTest(unittest.TestCase):
         self.assertFalse(when.is_timezone_naive(aware))
 
     def test_is_timezone_aware_naive(self):
+        """Test AssertionError raised by when.is_timezone_naive()"""
         today = when.today()
         self.assertRaises(AssertionError, when.is_timezone_aware, today)
 
     def test_now(self):
+        """Test when.now()"""
         now = when.now()
         utc = when.now(True)
 
@@ -187,10 +202,12 @@ class WhenTest(unittest.TestCase):
         self.assertTrue(utc - self.utc < self.one_second)
 
     def test_set_utc(self):
+        """Test when.set_utc()"""
         when.set_utc()
         self.assertEqual(when._FORCE_UTC, True)
 
     def test_shift(self):
+        """Test when.shift()"""
         first = when.shift(self.utc, from_tz='UTC', to_tz='America/New_York')
         second = when.shift(first, from_tz='America/New_York', to_tz='UTC')
 
@@ -229,10 +246,12 @@ class WhenTest(unittest.TestCase):
         self.assertEqual(second, self.utc)
 
     def test_shift_assert(self):
+        """Test AssertionError raised by when.shift()"""
         self.assertRaises(AssertionError, when.shift, 'a')
         self.assertRaises(AssertionError, when.shift, when.today())
 
     def test_shift_aware(self):
+        """Test when.shift() for time zone aware datetimes"""
         central = pytz.timezone('America/Chicago')
 
         now_aware = central.localize(self.now)
@@ -254,23 +273,29 @@ class WhenTest(unittest.TestCase):
         self.assertEqual(first, second)
 
     def test_timezone(self):
+        """Test when.timezone()"""
         self.assertEqual(when.timezone(), self.timezone)
 
     def test_timezone_object(self):
+        """Test when.timezone_object()"""
         local_timezone = pytz.timezone(self.timezone)
         self.assertEqual(when.timezone_object(), local_timezone)
 
     def test_today(self):
+        """Test when.today()"""
         self.assertEqual(when.today(), self.today)
 
     def test_tomorrow(self):
+        """Test when.tomorrow()"""
         self.assertEqual(when.tomorrow(), self.today + self.one_day)
 
     def test_unset_utc(self):
+        """Test when.unset_utc()"""
         when.unset_utc()
         self.assertEqual(when._FORCE_UTC, False)
 
     def test_yesterday(self):
+        """Test when.yesterday()"""
         self.assertEqual(when.yesterday(), self.today - self.one_day)
 
 if __name__ == '__main__':
