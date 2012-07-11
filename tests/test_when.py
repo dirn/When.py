@@ -85,6 +85,26 @@ class WhenTest(unittest.TestCase):
         self.assertTrue(when._is_date_type(self.now))
         self.assertTrue(when._is_date_type(self.now.time()))
 
+    def test_all_timezones(self):
+        # Make sure all_timezones() matches pytz's version
+        all_timezones = when.all_timezones()
+        self.assertEqual(all_timezones, pytz.all_timezones)
+
+    def test_all_timezones_set(self):
+        # Make sure all_timezones_set() matches pytz's version
+        all_timezones_set = when.all_timezones_set()
+        self.assertEqual(all_timezones_set, pytz.all_timezones_set)
+
+    def test_common_timezones(self):
+        # Make sure common_timezones() matches pytz's version
+        common_timezones = when.common_timezones()
+        self.assertEqual(common_timezones, pytz.common_timezones)
+
+    def test_common_timezones_set(self):
+        # Make sure common_timezones_set() matches pytz's version
+        common_timezones_set = when.common_timezones_set()
+        self.assertEqual(common_timezones_set, pytz.common_timezones_set)
+
     def test_ever(self):
         old_result = None
         for i in range(50):
@@ -239,19 +259,6 @@ class WhenTest(unittest.TestCase):
     def test_timezone_object(self):
         local_timezone = pytz.timezone(self.timezone)
         self.assertEqual(when.timezone_object(), local_timezone)
-
-    def test_timezones(self):
-        # Make sure all_timezones() matches pytz's versions
-        all_timezones = when.all_timezones()
-        self.assertEqual(all_timezones, pytz.all_timezones)
-        all_timezones_set = when.all_timezones_set()
-        self.assertEqual(all_timezones_set, pytz.all_timezones_set)
-
-        # Make sure common_timezones() matches pytz's versions
-        common_timezones = when.common_timezones()
-        self.assertEqual(common_timezones, pytz.common_timezones)
-        common_timezones_set = when.common_timezones_set()
-        self.assertEqual(common_timezones_set, pytz.common_timezones_set)
 
     def test_today(self):
         self.assertEqual(when.today(), self.today)
