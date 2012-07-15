@@ -8,6 +8,7 @@
 
 import calendar
 import datetime
+import locale
 import os
 import pytz
 import random
@@ -16,6 +17,48 @@ import random
 # instead of local time.  This will be used to force them to return UTC
 # regardless of the paramter's value.
 _FORCE_UTC = False
+
+
+class formats(object):
+    """A set of predefined datetime formats.
+
+    .. versionadded:: 0.3.0
+    """
+    DATE = 'D_FMT'
+    DATETIME = 'D_T_FMT'
+
+    TIME = 'T_FMT'
+    TIME_AMPM = 'T_FMT_AMPM'
+
+    class __metaclass__(type):
+        """Allows the formats class to be treated as an iterable.
+
+        It is important to understand has this class works.
+        ``hasattr(formats, 'DATE')`` is true. ``'DATE' in formats` is false.
+        ``hasattr(formats, 'D_FMT')`` is false. ``'D_FMT' in formats` is true.
+
+        This is made possible through the ``__contains__`` and ``__getitem__``
+        methods. ``__getitem__`` checks for the name of the attribute within
+        the ``formats`` class. ``__contains__``, on the other hand, checks for
+        the specified value assigned to an attribute of the class.
+            pass
+        """
+        def __contains__(self, value):
+            index = 0
+            for attr in dir(formats):
+                if not attr.startswith('__') and \
+                    getattr(formats, attr) == value:
+                    index = attr
+                    break
+            return index
+
+        def __getitem__(self, attr):
+            return getattr(self, attr)
+
+        def __iter__(self):
+            for attr in dir(formats):
+                if not attr.startswith('__'):
+                    yield attr
 
 
 def _add_time(value, years=0, months=0, weeks=0, days=0,
@@ -172,10 +215,28 @@ def format(value, format_string):
     This is a wrapper for ``strftime()``. The full list of directives that can
     be used can be found at
     http://docs.python.org/library/datetime.html#strftime-strptime-behavior.
+    Pre-defined formats are exposed through ``when.formats``:
+
+    .. data:: when.formats.DATE
+
+       Date in locale-based format.
+
+    .. data:: when.formats.DATETIME
+
+       Date and time in locale-based format.
+
+    .. data:: when.formats.TIME
+
+       Time in locale-based format.
+
+    .. data:: when.formats.TIME_AMPM
+
+       12-hour time in locale-based format.
 
     :param value: A datetime object.
     :type value: datetime.datetime, datetime.date, datetime.time.
-    :param format_string: A string specifying formatting the directives to use.
+    :param format_string: A string specifying formatting the directives or
+                          to use.
     :type format_string: str.
     :returns: str -- the formatted datetime.
     :raises: AssertionError
@@ -184,6 +245,11 @@ def format(value, format_string):
     """
 
     assert _is_date_type(value)
+
+    # Check to see if `format_string` is a value from the `formats` class. If
+    # it is, obtain the real value from `locale.nl_langinfo()`.
+    if format_string in formats:
+        format_string = locale.nl_langinfo(getattr(locale, format_string))
 
     return value.strftime(format_string)
 

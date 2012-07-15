@@ -12,6 +12,7 @@ Usage
 
 .. automodule:: when
    :synopsis: Friendly Dates and Times
+   :exclude-members: formats
    :members:
 
 A note about ``future`` and ``past``
