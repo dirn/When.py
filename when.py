@@ -19,10 +19,18 @@ import random
 _FORCE_UTC = False
 
 
-class formats(object):
-    """A set of predefined datetime formats.
+class _FormatsMetaClass(type):
+    """Allows the formats class to be treated as an iterable.
 
-    .. versionadded:: 0.3.0
+    It is important to understand has this class works.
+    ``hasattr(formats, 'DATE')`` is true. ``'DATE' in formats` is false.
+    ``hasattr(formats, 'D_FMT')`` is false. ``'D_FMT' in formats` is true.
+
+    This is made possible through the ``__contains__`` and ``__getitem__``
+    methods. ``__getitem__`` checks for the name of the attribute within
+    the ``formats`` class. ``__contains__``, on the other hand, checks for
+    the specified value assigned to an attribute of the class.
+        pass
     """
     DATE = 'D_FMT'
     DATETIME = 'D_T_FMT'
@@ -30,35 +38,28 @@ class formats(object):
     TIME = 'T_FMT'
     TIME_AMPM = 'T_FMT_AMPM'
 
-    class __metaclass__(type):
-        """Allows the formats class to be treated as an iterable.
+    def __contains__(self, value):
+        index = 0
+        for attr in dir(_FormatsMetaClass):
+            if not attr.startswith('__') and attr != 'mro' and \
+                getattr(_FormatsMetaClass, attr) == value:
+                index = attr
+                break
+        return index
 
-        It is important to understand has this class works.
-        ``hasattr(formats, 'DATE')`` is true. ``'DATE' in formats` is false.
-        ``hasattr(formats, 'D_FMT')`` is false. ``'D_FMT' in formats` is true.
+    def __getitem__(self, attr):
+        return getattr(_FormatsMetaClass, attr)
 
-        This is made possible through the ``__contains__`` and ``__getitem__``
-        methods. ``__getitem__`` checks for the name of the attribute within
-        the ``formats`` class. ``__contains__``, on the other hand, checks for
-        the specified value assigned to an attribute of the class.
-            pass
-        """
-        def __contains__(self, value):
-            index = 0
-            for attr in dir(formats):
-                if not attr.startswith('__') and \
-                    getattr(formats, attr) == value:
-                    index = attr
-                    break
-            return index
+    def __iter__(self):
+        for attr in dir(_FormatsMetaClass):
+            if not attr.startswith('__') and attr != 'mro':
+                yield attr
 
-        def __getitem__(self, attr):
-            return getattr(self, attr)
+formats = _FormatsMetaClass('formats', (object,), {})
+formats.__doc__ = """A set of predefined datetime formats.
 
-        def __iter__(self):
-            for attr in dir(formats):
-                if not attr.startswith('__'):
-                    yield attr
+    .. versionadded:: 0.3.0
+    """
 
 
 def _add_time(value, years=0, months=0, weeks=0, days=0,
@@ -215,7 +216,7 @@ def format(value, format_string):
     This is a wrapper for ``strftime()``. The full list of directives that can
     be used can be found at
     http://docs.python.org/library/datetime.html#strftime-strptime-behavior.
-    Pre-defined formats are exposed through ``when.formats``:
+    Predefined formats are exposed through ``when.formats``:
 
     .. data:: when.formats.DATE
 
