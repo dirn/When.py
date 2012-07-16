@@ -12,6 +12,12 @@ import pytz
 
 import when
 
+# This is a hack for Python 3. Python 3 has no type called basestring.
+try:
+    basestring
+except NameError:
+    basestring = str
+
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.append('.')
 
