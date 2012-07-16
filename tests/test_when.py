@@ -4,6 +4,7 @@
 import unittest
 
 import datetime
+import locale
 import os
 import re
 import sys
@@ -149,6 +150,23 @@ class WhenTest(unittest.TestCase):
     def test_format_assert(self):
         """Test AssertionError raised by when.format()"""
         self.assertRaises(AssertionError, when.format, 'a', '%a')
+
+    def test_formats(self):
+        """Test the iteration of the formats class"""
+        for k in when.formats:
+            self.assertTrue(isinstance(k, basestring))
+
+            value = getattr(when.formats, k)
+            locale_value = getattr(locale, value)
+            self.assertTrue(isinstance(locale_value, int))
+
+    def test_formats_metaclass(self):
+        """Test the metaclass of the formats class"""
+        self.assertTrue(isinstance(when.formats, when._FormatsMetaClass))
+        for k in when.formats:
+            value = getattr(when.formats, k)
+            self.assertEqual(value, getattr(when._FormatsMetaClass, k))
+            self.assertEqual(value, when._FormatsMetaClass.__dict__[k])
 
     def test_is_timezone_aware(self):
         """Test when.is_timezone_aware()"""
