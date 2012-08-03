@@ -2,9 +2,9 @@
 When.py: Friendly Dates and Times
 =================================
 
-Production test status: |travismaster|
+Production: |travismaster|
 
-Development test status: |travisdevelop|
+Development: |travisdevelop|
 
 .. |travismaster| image:: https://secure.travis-ci.org/dirn/When.py.png?branch=master
 .. |travisdevelop| image:: https://secure.travis-ci.org/dirn/When.py.png?branch=develop
