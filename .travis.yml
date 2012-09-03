@@ -8,5 +8,6 @@ env:
   - TIMEZONE=UTC
 install:
   - pip install nose
+  - pip install coverage
   - pip install .
-script: make test
+script: nosetests -s tests
