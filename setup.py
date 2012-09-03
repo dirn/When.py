@@ -28,6 +28,7 @@ settings.update(
     package_data={'': ['LICENSE']},
     include_package_data=True,
     install_requires=['pytz'],
+    tests_require=['coverage', 'nose'],
     license=open('LICENSE').read(),
     classifiers=(
         'Development Status :: 5 - Production/Stable',
