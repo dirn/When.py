@@ -11,4 +11,4 @@ install:
   - pip install coverage
   - pip install mock
   - pip install .
-script: nosetests -s tests
+script: nosetests -q tests
