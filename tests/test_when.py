@@ -174,6 +174,88 @@ class WhenTest(unittest.TestCase):
             self.assertEqual(value, getattr(when._FormatsMetaClass, k))
             self.assertEqual(value, when._FormatsMetaClass.__dict__[k])
 
+    def test_how_many_leap_days(self):
+        """Test when.how_many_leap_days()"""
+        # Tests with just years
+        self.assertEqual(when.how_many_leap_days(2012, 2012), 0)
+        self.assertEqual(when.how_many_leap_days(2012, 2013), 1)
+        self.assertEqual(when.how_many_leap_days(2012, 2017), 2)
+
+        # Simple tests using `datetime.date`
+        d1 = datetime.date(2012, 1, 1)
+        d2 = datetime.date(2012, 2, 1)
+        self.assertEqual(when.how_many_leap_days(d1, d2), 0)
+
+        d1 = datetime.date(2012, 1, 1)
+        d2 = datetime.date(2012, 3, 1)
+        self.assertEqual(when.how_many_leap_days(d1, d2), 1)
+
+        d1 = datetime.date(2012, 3, 1)
+        d2 = datetime.date(2012, 4, 1)
+        self.assertEqual(when.how_many_leap_days(d1, d2), 0)
+
+        d1 = datetime.date(2012, 3, 1)
+        d2 = datetime.date(2016, 2, 1)
+        self.assertEqual(when.how_many_leap_days(d1, d2), 0)
+
+        d1 = datetime.date(2012, 3, 1)
+        d2 = datetime.date(2017, 2, 1)
+        self.assertEqual(when.how_many_leap_days(d1, d2), 1)
+
+        # Simple tests using `datetime.datetime`
+        dt1 = datetime.datetime(2012, 2, 28)
+        dt2 = datetime.datetime(2012, 2, 29)
+        self.assertEqual(when.how_many_leap_days(dt1, dt2), 1)
+
+        dt1 = datetime.datetime(2012, 2, 28)
+        dt2 = datetime.datetime(2016, 2, 28)
+        self.assertEqual(when.how_many_leap_days(dt1, dt2), 1)
+
+        dt1 = datetime.datetime(2012, 2, 28)
+        dt2 = datetime.datetime(2020, 2, 28)
+        self.assertEqual(when.how_many_leap_days(dt1, dt2), 2)
+
+        dt1 = datetime.datetime(2012, 2, 28)
+        dt2 = datetime.datetime(2020, 2, 29)
+        self.assertEqual(when.how_many_leap_days(dt1, dt2), 3)
+
+        dt1 = datetime.datetime(2011, 2, 28)
+        dt2 = datetime.datetime(2011, 3, 22)
+        self.assertEqual(when.how_many_leap_days(dt1, dt2), 0)
+
+        dt1 = datetime.datetime(2012, 2, 28)
+        dt2 = datetime.datetime(2026, 2, 28)
+        self.assertEqual(when.how_many_leap_days(dt1, dt2), 4)
+
+        # And a few using mixed types
+        d1 = datetime.date(1970, 1, 1)
+        dt2 = datetime.datetime(1980, 1, 1)
+        self.assertEqual(when.how_many_leap_days(d1, dt2), 2)
+
+        dt1 = datetime.date(1970, 1, 1)
+        d2 = datetime.datetime(1990, 1, 1)
+        self.assertEqual(when.how_many_leap_days(dt1, d2), 5)
+
+        dt1 = datetime.date(2000, 1, 1)
+        d2 = datetime.datetime(3000, 1, 1)
+        # At first glance it would appear this should be 250, except that
+        # years divisible by 100 are not leap years, of which there are 10,
+        # unless they are also divisible by 400. The years 2000, 2400,
+        # and 2800 need to be added back in. 250 - (10 - 3) = 243
+        self.assertEqual(when.how_many_leap_days(dt1, d2), 243)
+
+    def test_how_many_leap_days_assert(self):
+        """Test AssertionError raised by when.how_many_leap_days()"""
+        d1 = when.today()
+        d2 = when.yesterday()
+
+        # from_date must be valid
+        self.assertRaises(AssertionError, when.how_many_leap_days, 'a', d2)
+        # to_date must be valid
+        self.assertRaises(AssertionError, when.how_many_leap_days, d1, 'b')
+        # from_date must be before to_date
+        self.assertRaises(AssertionError, when.how_many_leap_days, d1, d2)
+
     def test_is_timezone_aware(self):
         """Test when.is_timezone_aware()"""
         naive = when.now()
@@ -321,26 +403,6 @@ class WhenTest(unittest.TestCase):
     def test_yesterday(self):
         """Test when.yesterday()"""
         self.assertEqual(when.yesterday(), self.today - self.one_day)
-
-    def test_how_many_leap_days(self):
-        date1 = datetime.datetime(2012, 2, 28)
-        date2 = datetime.datetime(2012, 2, 29)
-        self.assertEqual(when.how_many_leap_days(date1, date2), 1)
-        date1 = datetime.datetime(2012, 2, 28)
-        date2 = datetime.datetime(2016, 2, 28)
-        self.assertEqual(when.how_many_leap_days(date1, date2), 1)
-        date1 = datetime.datetime(2012, 2, 28)
-        date2 = datetime.datetime(2020, 2, 28)
-        self.assertEqual(when.how_many_leap_days(date1, date2), 2)
-        date1 = datetime.datetime(2012, 2, 28)
-        date2 = datetime.datetime(2020, 2, 29)
-        self.assertEqual(when.how_many_leap_days(date1, date2), 3)
-        date1 = datetime.datetime(2011, 2, 28)
-        date2 = datetime.datetime(2011, 3, 22)
-        self.assertEqual(when.how_many_leap_days(date1, date2), 0)
-        date1 = datetime.datetime(2012, 2, 28)
-        date2 = datetime.datetime(2026, 2, 28)
-        self.assertEqual(when.how_many_leap_days(date1, date2), 4)
 
 if __name__ == '__main__':
     unittest.main()

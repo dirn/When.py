@@ -133,43 +133,6 @@ def _is_date_type(value):
     return isinstance(value, (datetime.date, datetime.time))
 
 
-def how_many_leap_days(t1, t2):
-    """Returns the number of leap days included in the range that especified
-    by the arguments
-
-    t1 -- datetime
-    t2 -- datetime
-
-    Returns integer counter
-    """
-    """Returns the number of leap days in a range.
-
-    ``how_many_leap_days()`` accepts two datetime objects and will return
-    an integer counter containing the number of leap days in the range that
-    is contained within the two dates, limits included.
-
-    .. versionadded:: 0.1.x
-    """
-
-    _is_leap_year = lambda x: (x % 4 == 0 and x % 100 != 0) or x % 400 == 0
-
-    count = 0
-
-    if t1.month <= 2 and t1.day <= 28:
-        if _is_leap_year(t1.year):
-            count += 1
-
-    if t2.month >= 2 and t2.day > 28 and t1.year != t2.year:
-        if _is_leap_year(t1.year):
-            count += 1
-
-    for year in xrange(t1.year + 1, t2.year):
-        if _is_leap_year(year):
-            count += 1
-
-    return count
-
-
 def all_timezones():
     """Get a list of all time zones.
 
@@ -332,6 +295,59 @@ def future(years=0, months=0, weeks=0, days=0,
     return _add_time(now(utc), years=years, months=months, weeks=weeks,
                      days=days, hours=hours, minutes=minutes, seconds=seconds,
                      milliseconds=milliseconds, microseconds=microseconds)
+
+
+def how_many_leap_days(from_date, to_date):
+    """Get the number of leap days between two dates
+
+    :param from_date: A datetime object. If only a year is specified, will use
+        January 1.
+    :type from_date: datetime.datetime, datetime.date
+    :param to_date: A datetime object.. If only a year is specified, will use
+        January 1.
+    :type to_date: datetime.datetime, datetime.date
+    :returns: int -- the number of leap days.
+
+    .. versionadded:: 0.3.0
+    """
+    if isinstance(from_date, int):
+        from_date = datetime.date(from_date, 1, 1)
+
+    if isinstance(to_date, int):
+        to_date = datetime.date(to_date, 1, 1)
+
+    assert _is_date_type(from_date) and \
+        not isinstance(from_date, datetime.time)
+    assert _is_date_type(to_date) and not isinstance(to_date, datetime.time)
+
+    # Both `from_date` and `to_date` need to be of the same type. Since both
+    # `datetime.date` and `datetime.datetime` will pass the above assertions,
+    # cast any `datetime.datetime` values to `datetime.date`.
+    if isinstance(from_date, datetime.datetime):
+        from_date = from_date.date()
+    if isinstance(to_date, datetime.datetime):
+        to_date = to_date.date()
+
+    assert from_date <= to_date
+
+    number_of_leaps = calendar.leapdays(from_date.year, to_date.year)
+
+    # `calendar.leapdays()` calculates the number of leap days by using
+    # January 1 for the specified years. If `from_date` occurs after
+    # February 28 in a leap year, remove one leap day from the total. If
+    # `to_date` occurs after February 28 in a leap year, add one leap day to
+    # the total.
+    if calendar.isleap(from_date.year):
+        month, day = from_date.month, from_date.day
+        if month > 2 or (month == 2 and day > 28):
+            number_of_leaps -= 1
+
+    if calendar.isleap(to_date.year):
+        month, day = to_date.month, to_date.day
+        if month > 2 or (month == 2 and day > 28):
+            number_of_leaps += 1
+
+    return number_of_leaps
 
 
 def is_5_oclock():
