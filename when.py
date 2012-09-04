@@ -297,6 +297,37 @@ def future(years=0, months=0, weeks=0, days=0,
                      milliseconds=milliseconds, microseconds=microseconds)
 
 
+def is_5_oclock():
+    # Congratulations, you've found an easter egg!
+    #
+    # Returns a `datetime.timedelta` object representing how much time is
+    # remaining until 5 o'clock. If the current time is between 5pm and
+    # midnight, a negative value will be returned. Keep in mind, a `timedelta`
+    # is considered negative when the `days` attribute is negative; the values
+    # for `seconds` and `microseconds` will always be positive.
+    #
+    # All values will be `0` at 5 o'clock.
+
+    # Because this method deals with local time, the force UTC flag will need
+    # to be turned off and back on if it has been set.
+    force = _FORCE_UTC
+    if force:
+        unset_utc()
+
+    # A `try` is used here to ensure that the UTC flag will be restored
+    # even if an exception is raised when calling `now()`. This should never
+    # be the case, but better safe than sorry.
+    try:
+        the_datetime = now()
+    finally:
+        if force:
+            set_utc()
+
+    five = datetime.time(17)
+
+    return datetime.datetime.combine(the_datetime.date(), five) - the_datetime
+
+
 def is_timezone_aware(value):
     """Check if a datetime is time zone aware.
 
