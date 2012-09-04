@@ -9,7 +9,6 @@ import os
 import re
 import sys
 import pytz
-import random
 
 import when
 
@@ -27,7 +26,6 @@ class WhenTest(unittest.TestCase):
     def setUp(self):
         when.unset_utc()
 
-        self.one_month = datetime.timedelta(days=30)
         self.one_day = datetime.timedelta(days=1)
         self.one_second = datetime.timedelta(seconds=1)
 
@@ -343,42 +341,6 @@ class WhenTest(unittest.TestCase):
         date1 = datetime.datetime(2012, 2, 28)
         date2 = datetime.datetime(2026, 2, 28)
         self.assertEqual(when.how_many_leap_days(date1, date2), 4)
-
-    def test_future_months(self):
-        nums = [random.randint(1, 1000) for range_index in xrange(1000)]
-        for num in nums:
-            future = when.future(months=num)
-            now_plus = when.now() + self.one_month * num
-
-            self.assertTrue(
-                (now_plus - future) < self.one_day * 3 * num)
-
-    def test_future_years(self):
-        nums = [random.randint(1, 1000) for range_index in xrange(1000)]
-        for num in nums:
-            future = when.future(years=num)
-            leap_days = when.how_many_leap_days(self.now, future)
-            now_plus = when.now() + self.one_day * (num * 365 + leap_days)
-            self.assertTrue(now_plus - future < self.one_second)
-
-
-    def test_past_months(self):
-        nums = [random.randint(1, 1000) for range_index in xrange(1000)]
-        for num in nums:
-            past = when.past(months=num)
-            now_minus = when.now() - self.one_month * num
-
-            self.assertTrue(
-                (past - now_minus) < self.one_day * 3 * num)
-
-    def test_past_years(self):
-        nums = [random.randint(1, 1000) for range_index in xrange(1000)]
-        for num in nums:
-            past = when.past(years=num)
-            leap_days = when.how_many_leap_days(past, self.now)
-            now_plus = when.now() - self.one_day * (num * 365 + leap_days)
-            self.assertTrue(past - now_plus < self.one_second)
-
 
 if __name__ == '__main__':
     unittest.main()
