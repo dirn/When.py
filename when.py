@@ -42,7 +42,7 @@ class _FormatsMetaClass(type):
         index = 0
         for attr in dir(_FormatsMetaClass):
             if not attr.startswith('__') and attr != 'mro' and \
-                getattr(_FormatsMetaClass, attr) == value:
+                    getattr(_FormatsMetaClass, attr) == value:
                 index = attr
                 break
         return index
@@ -264,8 +264,8 @@ def future(years=0, months=0, weeks=0, days=0,
     plus includes the parameters ``years`` and ``months``. ``years`` and
     ``months`` will add their respective units of time to the datetime.
 
-    By default ``future()`` will return the datetime in the system's local time.
-    If the ``utc`` parameter is set to ``True`` or ``set_utc()`` has been
+    By default ``future()`` will return the datetime in the system's local
+    time. If the ``utc`` parameter is set to ``True`` or ``set_utc()`` has been
     called, the datetime will be based on UTC instead.
 
     :param years: The number of years to add.
@@ -309,7 +309,8 @@ def is_timezone_aware(value):
     .. versionadded:: 0.3.0
     """
     assert hasattr(value, 'tzinfo')
-    return value.tzinfo is not None and value.tzinfo.utcoffset(value) is not None
+    return value.tzinfo is not None and \
+        value.tzinfo.utcoffset(value) is not None
 
 
 def is_timezone_naive(value):
@@ -347,8 +348,8 @@ def now(utc=False):
 
 
 def past(years=0, months=0, weeks=0, days=0,
-           hours=0, minutes=0, seconds=0, milliseconds=0, microseconds=0,
-           utc=False):
+         hours=0, minutes=0, seconds=0, milliseconds=0, microseconds=0,
+         utc=False):
     """Get a datetime in the past.
 
     ``past()`` accepts the all of the parameters of ``datetime.timedelta``,
@@ -516,7 +517,8 @@ def _timezone_from_etc_localtime():
     """ get the system time zone from /etc/loclatime """
     matches = []
     if os.path.exists('/etc/localtime'):
-        localtime = pytz.tzfile.build_tzinfo('/etc/localtime', file('/etc/localtime'))
+        localtime = pytz.tzfile.build_tzinfo('/etc/localtime',
+                                             file('/etc/localtime'))
 
         for tzname in pytz.all_timezones:
             tz = pytz.timezone(tzname)
