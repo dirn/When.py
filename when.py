@@ -133,6 +133,43 @@ def _is_date_type(value):
     return isinstance(value, (datetime.date, datetime.time))
 
 
+def how_many_leap_days(t1, t2):
+    """Returns the number of leap days included in the range that especified
+    by the arguments
+
+    t1 -- datetime
+    t2 -- datetime
+
+    Returns integer counter
+    """
+    """Returns the number of leap days in a range.
+
+    ``how_many_leap_days()`` accepts two datetime objects and will return
+    an integer counter containing the number of leap days in the range that
+    is contained within the two dates, limits included.
+
+    .. versionadded:: 0.1.x
+    """
+
+    _is_leap_year = lambda x: (x % 4 == 0 and x % 100 != 0) or x % 400 == 0
+
+    count = 0
+
+    if t1.month <= 2 and t1.day <= 28:
+        if _is_leap_year(t1.year):
+            count += 1
+
+    if t2.month >= 2 and t2.day > 28 and t1.year != t2.year:
+        if _is_leap_year(t1.year):
+            count += 1
+
+    for year in xrange(t1.year + 1, t2.year):
+        if _is_leap_year(year):
+            count += 1
+
+    return count
+
+
 def all_timezones():
     """Get a list of all time zones.
 
