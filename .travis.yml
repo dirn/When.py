@@ -9,5 +9,6 @@ env:
 install:
   - pip install nose
   - pip install coverage
+  - pip install mock
   - pip install .
 script: nosetests -s tests
