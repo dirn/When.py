@@ -1,4 +1,4 @@
-When.py 0.2.0
+When.py 0.3.0
 ===================================
 
 When.py provides user-friendly functions to help perform common date and time
@@ -12,6 +12,7 @@ Usage
 
 .. automodule:: when
    :synopsis: Friendly Dates and Times
+   :exclude-members: formats,_FormatsMetaClass
    :members:
 
 A note about ``future`` and ``past``

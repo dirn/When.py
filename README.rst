@@ -2,7 +2,14 @@
 When.py: Friendly Dates and Times
 =================================
 
-.. image:: https://secure.travis-ci.org/dirn/When.py.png?branch=master
+Production: |travismaster|
+
+Development: |travisdevelop|
+
+.. |travismaster| image:: https://secure.travis-ci.org/dirn/When.py.png?branch=master
+   :target: http://travis-ci.org/dirn/When.py
+.. |travisdevelop| image:: https://secure.travis-ci.org/dirn/When.py.png?branch=develop
+   :target: http://travis-ci.org/dirn/When.py
 
 User-friendly functions to help perform common date and time actions.
 

@@ -18,7 +18,7 @@ if sys.argv[-1] == 'publish':
 
 settings.update(
     name='whenpy',
-    version='0.2.0',
+    version='0.3.0',
     description='Friendly Dates and Times',
     long_description=open('README.rst').read(),
     author='Andy Dirnberger',
@@ -28,6 +28,7 @@ settings.update(
     package_data={'': ['LICENSE']},
     include_package_data=True,
     install_requires=['pytz'],
+    tests_require=['coverage', 'mock', 'nose'],
     license=open('LICENSE').read(),
     classifiers=(
         'Development Status :: 5 - Production/Stable',
