@@ -2,6 +2,8 @@
 
 """ Friendly Dates and Times """
 
+__version__ = '0.4.0'
+
 # Disable pylint's invalid name warning. 'tz' is used in a few places and it
 # should be the only thing causing pylint to include the warning.
 # pylint: disable-msg=C0103
