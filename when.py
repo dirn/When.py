@@ -604,7 +604,7 @@ def _timezone_from_etc_localtime():
     matches = []
     if os.path.exists('/etc/localtime'):
         localtime = pytz.tzfile.build_tzinfo('/etc/localtime',
-                                             file('/etc/localtime'))
+                                             open('/etc/localtime'))
 
         for tzname in pytz.all_timezones:
             tz = pytz.timezone(tzname)
@@ -636,7 +636,7 @@ def _timezone_from_etc_localtime():
 def _timezone_from_etc_timezone():
     """ get the system time zone from /etc/timezone """
     if os.path.exists('/etc/timezone'):
-        tz = file('/etc/timezone').read().strip()
+        tz = open('/etc/timezone').read().strip()
         try:
             return pytz.timezone(tz)
         except pytz.UnknownTimeZoneError:
