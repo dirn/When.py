@@ -11,11 +11,6 @@ except ImportError:
 
 settings = dict()
 
-# Publish
-if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
-    sys.exit()
-
 settings.update(
     name='whenpy',
     version='0.4.0',
