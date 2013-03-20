@@ -1,17 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup
 
 settings = dict()
 
-settings.update(
+setup(
     name='whenpy',
     version='0.4.0',
     description='Friendly Dates and Times',
@@ -20,7 +14,7 @@ settings.update(
     author_email='dirn@dirnonline.com',
     url='https://github.com/dirn/When.py',
     py_modules=['when'],
-    package_data={'': ['LICENSE']},
+    package_data={'': ['LICENSE', 'README.rst']},
     include_package_data=True,
     install_requires=['pytz'],
     tests_require=['coverage', 'mock', 'nose'],
@@ -41,5 +35,3 @@ settings.update(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 )
-
-setup(**settings)
