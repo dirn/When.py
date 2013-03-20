@@ -566,26 +566,14 @@ def timezone():
 
     .. versionadded:: 0.1.0
     """
-    def _inner():
-        """ check for the time zone:
-            1. as an environment setting (most likely not)
-            2. in /etc/timezone (hopefully)
-            3. in /etc/localtime (last chance)
+    # Check for the time zone:
+    # 1. as an environment settings (most likely not)
+    # 2. in /etc/timezone (hopefully)
+    # 3. in /etc/localtime (last chance)
+    tz = _timezone_from_env() or _timezone_from_etc_timezone() or \
+        _timezone_from_etc_localtime()
 
-        """
-        tz = _timezone_from_env()  # 1
-        if tz is not None:
-            return tz
-
-        tz = _timezone_from_etc_timezone()  # 2
-        if tz is not None:
-            return tz
-
-        tz = _timezone_from_etc_localtime()  # 3
-        if tz is not None:
-            return tz
-
-    return '{0}'.format(_inner())
+    return '{0}'.format(tz)
 
 
 def _timezone_from_env():
