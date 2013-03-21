@@ -570,8 +570,9 @@ def timezone():
     # 1. as an environment settings (most likely not)
     # 2. in /etc/timezone (hopefully)
     # 3. in /etc/localtime (last chance)
-    tz = _timezone_from_env() or _timezone_from_etc_timezone() or \
-        _timezone_from_etc_localtime()
+    tz = (_timezone_from_env()
+          or _timezone_from_etc_timezone()
+          or _timezone_from_etc_localtime())
 
     return '{0}'.format(tz)
 
