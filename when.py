@@ -4,8 +4,8 @@
 
 __version__ = '0.4.0'
 
-# Disable pylint's invalid name warning. 'tz' is used in a few places and it
-# should be the only thing causing pylint to include the warning.
+# Disable pylint's invalid name warning. 'tz' is used in a few places
+# and it should be the only thing causing pylint to include the warning.
 # pylint: disable-msg=C0103
 
 import calendar
@@ -27,14 +27,16 @@ class _FormatsMetaClass(type):
 
     It is important to understand has this class works.
     ``hasattr(formats, 'DATE')`` is true. ``'DATE' in formats` is false.
-    ``hasattr(formats, 'D_FMT')`` is false. ``'D_FMT' in formats` is true.
+    ``hasattr(formats, 'D_FMT')`` is false. ``'D_FMT' in formats` is
+    true.
 
-    This is made possible through the ``__contains__`` and ``__getitem__``
-    methods. ``__getitem__`` checks for the name of the attribute within
-    the ``formats`` class. ``__contains__``, on the other hand, checks for
-    the specified value assigned to an attribute of the class.
-        pass
+    This is made possible through the ``__contains__`` and
+    ``__getitem__`` methods. ``__getitem__`` checks for the name of the
+    attribute within the ``formats`` class. ``__contains__``, on the
+    other hand, checks for the specified value assigned to an attribute
+    of the class.
     """
+
     DATE = 'D_FMT'
     DATETIME = 'D_T_FMT'
 
@@ -69,7 +71,8 @@ def _add_time(value, years=0, months=0, weeks=0, days=0,
               hours=0, minutes=0, seconds=0, milliseconds=0, microseconds=0):
     assert _is_date_type(value)
 
-    # If any of the standard timedelta values are used, use timedelta for them.
+    # If any of the standard timedelta values are used, use timedelta
+    # for them.
     if seconds or minutes or hours or days or weeks:
         delta = datetime.timedelta(weeks=weeks, days=days, hours=hours,
                                    minutes=minutes, seconds=seconds,
@@ -77,10 +80,11 @@ def _add_time(value, years=0, months=0, weeks=0, days=0,
                                    microseconds=microseconds)
         value += delta
 
-    # Months are tricky. If the current month plus the requested number of
-    # months is greater than 12 (or less than 1), we'll get a ValueError. After
-    # figuring out the number of years and months from the number of months,
-    # shift the values so that we get a valid month.
+    # Months are tricky. If the current month plus the requested number
+    # of months is greater than 12 (or less than 1), we'll get a
+    # ValueError. After figuring out the number of years and months from
+    # the number of months, shift the values so that we get a valid
+    # month.
     if months:
         more_years, months = divmod(months, 12)
         years += more_years
@@ -95,30 +99,32 @@ def _add_time(value, years=0, months=0, weeks=0, days=0,
         month = value.month + months
 
         # When converting from a day in amonth that doesn't exist in the
-        # ending month, a ValueError will be raised. What follows is an ugly,
-        # ugly hack to get around this.
+        # ending month, a ValueError will be raised. What follows is an
+        # ugly, ugly hack to get around this.
         try:
             value = value.replace(year=year, month=month)
         except ValueError:
-            # When the day in the origin month isn't in the destination month,
-            # the total number of days in the destination month is needed.
-            # calendar.mdays would be a nice way to do this except it doesn't
-            # account for leap years at all; February always has 28 days.
+            # When the day in the origin month isn't in the destination
+            # month, the total number of days in the destination month
+            # is needed. calendar.mdays would be a nice way to do this
+            # except it doesn't account for leap years at all; February
+            # always has 28 days.
             _, destination_days = calendar.monthrange(year, month)
 
-            # I am reluctantly writing this comment as I fear putting the
-            # craziness of the hack into writing, but I don't want to forget
-            # what I was doing here so I can fix it later.
+            # I am reluctantly writing this comment as I fear putting
+            # the craziness of the hack into writing, but I don't want
+            # to forget what I was doing here so I can fix it later.
             #
-            # The new day will either be 1, 2, or 3. It will be determined by
-            # the difference in days between the day value of the datetime
-            # being altered and the number of days in the destination month.
-            # After that, month needs to be incremented. If that puts the new
-            # date into January (the value will be 13), year will also need to
-            # be incremented (with month being switched to 1).
+            # The new day will either be 1, 2, or 3. It will be
+            # determined by the difference in days between the day value
+            # of the datetime being altered and the number of days in
+            # the destination month. After that, month needs to be
+            # incremented. If that puts the new date into January (the
+            # value will be 13), year will also need to be incremented
+            # (with month being switched to 1).
             #
-            # Once all of that has been figured out, a simple replace will do
-            # the trick.
+            # Once all of that has been figured out, a simple replace
+            # will do the trick.
             day = value.day - destination_days
             month += 1
             if month > 12:
@@ -145,6 +151,7 @@ def all_timezones():
 
     .. versionadded:: 0.1.0
     """
+
     return pytz.all_timezones
 
 
@@ -157,6 +164,7 @@ def all_timezones_set():
 
     .. versionadded:: 0.1.0
     """
+
     return pytz.all_timezones_set
 
 
@@ -169,6 +177,7 @@ def common_timezones():
 
     .. versionadded:: 0.1.0
     """
+
     return pytz.common_timezones
 
 
@@ -181,20 +190,22 @@ def common_timezones_set():
 
     .. versionadded:: 0.1.0
     """
+
     return pytz.common_timezones_set
 
 
 def ever():
     """Get a random datetime.
 
-    Instead of using ``datetime.MINYEAR`` and ``datetime.MAXYEAR`` as the
-    bounds, the current year +/- 100 is used. The thought behind this is that
-    years that are too extreme will not be as useful.
+    Instead of using ``datetime.MINYEAR`` and ``datetime.MAXYEAR`` as
+    the bounds, the current year +/- 100 is used. The thought behind
+    this is that years that are too extreme will not be as useful.
 
     :returns: datetime.datetime -- a random datetime.
 
     .. versionadded:: 0.3.0
     """
+
     # Get the year bounds
     min_year = max(datetime.MINYEAR, today().year - 100)
     max_year = min(datetime.MAXYEAR, today().year + 100)
@@ -216,8 +227,8 @@ def ever():
 def format(value, format_string):
     """Get a formatted version of a datetime.
 
-    This is a wrapper for ``strftime()``. The full list of directives that can
-    be used can be found at
+    This is a wrapper for ``strftime()``. The full list of directives
+    that can be used can be found at
     http://docs.python.org/library/datetime.html#strftime-strptime-behavior.
     Predefined formats are exposed through ``when.formats``:
 
@@ -239,8 +250,8 @@ def format(value, format_string):
 
     :param value: A datetime object.
     :type value: datetime.datetime, datetime.date, datetime.time.
-    :param format_string: A string specifying formatting the directives or
-                          to use.
+    :param format_string: A string specifying formatting the directives
+                          or to use.
     :type format_string: str.
     :returns: str -- the formatted datetime.
     :raises: AssertionError
