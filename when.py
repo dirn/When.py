@@ -261,26 +261,28 @@ def format(value, format_string):
 
     assert _is_date_type(value)
 
-    # Check to see if `format_string` is a value from the `formats` class. If
-    # it is, obtain the real value from `locale.nl_langinfo()`.
+    # Check to see if `format_string` is a value from the `formats`
+    # class. If it is, obtain the real value from
+    # `locale.nl_langinfo()`.
     if format_string in formats:
         format_string = locale.nl_langinfo(getattr(locale, format_string))
 
     return value.strftime(format_string)
 
 
-def future(years=0, months=0, weeks=0, days=0,
-           hours=0, minutes=0, seconds=0, milliseconds=0, microseconds=0,
-           utc=False):
+def future(years=0, months=0, weeks=0, days=0, hours=0, minutes=0,
+           seconds=0, milliseconds=0, microseconds=0, utc=False):
     """Get a datetime in the future.
 
-    ``future()`` accepts the all of the parameters of ``datetime.timedelta``,
-    plus includes the parameters ``years`` and ``months``. ``years`` and
-    ``months`` will add their respective units of time to the datetime.
+    ``future()`` accepts the all of the parameters of
+    ``datetime.timedelta``, plus includes the parameters ``years`` and
+    ``months``. ``years`` and ``months`` will add their respective units
+    of time to the datetime.
 
-    By default ``future()`` will return the datetime in the system's local
-    time. If the ``utc`` parameter is set to ``True`` or ``set_utc()`` has been
-    called, the datetime will be based on UTC instead.
+    By default ``future()`` will return the datetime in the system's
+    local time. If the ``utc`` parameter is set to ``True`` or
+    ``set_utc()`` has been called, the datetime will be based on UTC
+    instead.
 
     :param years: The number of years to add.
     :type years: int.
@@ -306,6 +308,7 @@ def future(years=0, months=0, weeks=0, days=0,
 
     .. versionadded:: 0.1.0
     """
+
     return _add_time(now(utc), years=years, months=months, weeks=weeks,
                      days=days, hours=hours, minutes=minutes, seconds=seconds,
                      milliseconds=milliseconds, microseconds=microseconds)
@@ -314,11 +317,11 @@ def future(years=0, months=0, weeks=0, days=0,
 def how_many_leap_days(from_date, to_date):
     """Get the number of leap days between two dates
 
-    :param from_date: A datetime object. If only a year is specified, will use
-        January 1.
+    :param from_date: A datetime object. If only a year is specified,
+                      will use January 1.
     :type from_date: datetime.datetime, datetime.date
-    :param to_date: A datetime object.. If only a year is specified, will use
-        January 1.
+    :param to_date: A datetime object.. If only a year is specified,
+                    will use January 1.
     :type to_date: datetime.datetime, datetime.date
     :returns: int -- the number of leap days.
 
@@ -334,9 +337,10 @@ def how_many_leap_days(from_date, to_date):
         not isinstance(from_date, datetime.time)
     assert _is_date_type(to_date) and not isinstance(to_date, datetime.time)
 
-    # Both `from_date` and `to_date` need to be of the same type. Since both
-    # `datetime.date` and `datetime.datetime` will pass the above assertions,
-    # cast any `datetime.datetime` values to `datetime.date`.
+    # Both `from_date` and `to_date` need to be of the same type.
+    # Since both `datetime.date` and `datetime.datetime` will pass the
+    # above assertions, cast any `datetime.datetime` values to
+    # `datetime.date`.
     if isinstance(from_date, datetime.datetime):
         from_date = from_date.date()
     if isinstance(to_date, datetime.datetime):
@@ -349,8 +353,8 @@ def how_many_leap_days(from_date, to_date):
     # `calendar.leapdays()` calculates the number of leap days by using
     # January 1 for the specified years. If `from_date` occurs after
     # February 28 in a leap year, remove one leap day from the total. If
-    # `to_date` occurs after February 28 in a leap year, add one leap day to
-    # the total.
+    # `to_date` occurs after February 28 in a leap year, add one leap
+    # day to the total.
     if calendar.isleap(from_date.year):
         month, day = from_date.month, from_date.day
         if month > 2 or (month == 2 and day > 28):
@@ -367,23 +371,24 @@ def how_many_leap_days(from_date, to_date):
 def is_5_oclock():
     # Congratulations, you've found an easter egg!
     #
-    # Returns a `datetime.timedelta` object representing how much time is
-    # remaining until 5 o'clock. If the current time is between 5pm and
-    # midnight, a negative value will be returned. Keep in mind, a `timedelta`
-    # is considered negative when the `days` attribute is negative; the values
-    # for `seconds` and `microseconds` will always be positive.
+    # Returns a `datetime.timedelta` object representing how much time
+    # is remaining until 5 o'clock. If the current time is between 5pm
+    # and midnight, a negative value will be returned. Keep in mind, a
+    # `timedelta` is considered negative when the `days` attribute is
+    # negative; the values for `seconds` and `microseconds` will always
+    # be positive.
     #
     # All values will be `0` at 5 o'clock.
 
-    # Because this method deals with local time, the force UTC flag will need
-    # to be turned off and back on if it has been set.
+    # Because this method deals with local time, the force UTC flag will
+    # need to be turned off and back on if it has been set.
     force = _FORCE_UTC
     if force:
         unset_utc()
 
     # A `try` is used here to ensure that the UTC flag will be restored
-    # even if an exception is raised when calling `now()`. This should never
-    # be the case, but better safe than sorry.
+    # even if an exception is raised when calling `now()`. This should
+    # never be the case, but better safe than sorry.
     try:
         the_datetime = now()
     finally:
@@ -406,6 +411,7 @@ def is_timezone_aware(value):
 
     .. versionadded:: 0.3.0
     """
+
     assert hasattr(value, 'tzinfo')
     return value.tzinfo is not None and \
         value.tzinfo.utcoffset(value) is not None
@@ -422,6 +428,7 @@ def is_timezone_naive(value):
 
     .. versionadded:: 0.3.0
     """
+
     assert hasattr(value, 'tzinfo')
     return value.tzinfo is None or value.tzinfo.utcoffset(value) is None
 
@@ -429,9 +436,9 @@ def is_timezone_naive(value):
 def now(utc=False):
     """Get a datetime representing the current date and time.
 
-    By default ``now()`` will return the datetime in the system's local time.
-    If the ``utc`` parameter is set to ``True`` or ``set_utc()`` has been
-    called, the datetime will be based on UTC instead.
+    By default ``now()`` will return the datetime in the system's local
+    time. If the ``utc`` parameter is set to ``True`` or ``set_utc()``
+    has been called, the datetime will be based on UTC instead.
 
     :param utc: Whether or not to use UTC instead of local time.
     :type utc: bool.
@@ -439,24 +446,25 @@ def now(utc=False):
 
     .. versionadded:: 0.1.0
     """
+
     if _FORCE_UTC or utc:
         return datetime.datetime.utcnow()
     else:
         return datetime.datetime.now()
 
 
-def past(years=0, months=0, weeks=0, days=0,
-         hours=0, minutes=0, seconds=0, milliseconds=0, microseconds=0,
-         utc=False):
+def past(years=0, months=0, weeks=0, days=0, hours=0, minutes=0, seconds=0,
+         milliseconds=0, microseconds=0, utc=False):
     """Get a datetime in the past.
 
-    ``past()`` accepts the all of the parameters of ``datetime.timedelta``,
-    plus includes the parameters ``years`` and ``months``. ``years`` and
-    ``months`` will add their respective units of time to the datetime.
+    ``past()`` accepts the all of the parameters of
+    ``datetime.timedelta``, plus includes the parameters ``years`` and
+    ``months``. ``years`` and ``months`` will add their respective units
+    of time to the datetime.
 
-    By default ``past()`` will return the datetime in the system's local time.
-    If the ``utc`` parameter is set to ``True`` or ``set_utc()`` has been
-    called, the datetime will be based on UTC instead.
+    By default ``past()`` will return the datetime in the system's local
+    time. If the ``utc`` parameter is set to ``True`` or ``set_utc()``
+    has been called, the datetime will be based on UTC instead.
 
     :param years: The number of years to subtract.
     :type years: int.
@@ -482,6 +490,7 @@ def past(years=0, months=0, weeks=0, days=0,
 
     .. versionadded:: 0.1.0
     """
+
     return _add_time(now(utc), years=-years, months=-months, weeks=-weeks,
                      days=-days, hours=-hours, minutes=-minutes,
                      seconds=-seconds, milliseconds=milliseconds,
@@ -491,13 +500,14 @@ def past(years=0, months=0, weeks=0, days=0,
 def set_utc():
     """Set all datetimes to UTC.
 
-    The ``utc`` parameter of other methods will be ignored, with the global
-    setting taking precedence.
+    The ``utc`` parameter of other methods will be ignored, with the
+    global setting taking precedence.
 
     This can be reset by calling ``unset_utc()``.
 
     .. versionadded:: 0.1.0
     """
+
     global _FORCE_UTC  # Causes pylint W0603
     _FORCE_UTC = True
 
@@ -505,16 +515,17 @@ def set_utc():
 def shift(value, from_tz=None, to_tz=None, utc=False):
     """Convert a datetime from one time zone to another.
 
-    ``value`` will be converted from its time zone (when it is time zone aware)
-    or the time zone specified by ``from_tz`` (when it is time zone naive) to
-    the time zone specified by ``to_tz``. These values can either be strings
-    containing the name of the time zone (see ``pytz.all_timezones`` for a list
-    of all supported values) or a ``datetime.tzinfo`` object.
+    ``value`` will be converted from its time zone (when it is time zone
+    aware) or the time zone specified by ``from_tz`` (when it is time
+    zone naive) to the time zone specified by ``to_tz``. These values
+    can either be strings containing the name of the time zone (see
+    ``pytz.all_timezones`` for a list of all supported values) or a
+    ``datetime.tzinfo`` object.
 
-    If no value is provided for either ``from_tz`` (when ``value`` is time zone
-    naive) or ``to_tz``, the current system time zone will be used. If the
-    ``utc`` parameter is set to ``True`` or ``set_utc()`` has been called,
-    however, UTC will be used instead.
+    If no value is provided for either ``from_tz`` (when ``value`` is
+    time zone naive) or ``to_tz``, the current system time zone will be
+    used. If the ``utc`` parameter is set to ``True`` or ``set_utc()``
+    has been called, however, UTC will be used instead.
 
     :param value: A datetime object.
     :type value: datetime.datetime, datetime.time.
@@ -530,6 +541,7 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     .. versionchanged:: 0.3.0
        Added AssertionError for invalid values of ``value``
     """
+
     assert hasattr(value, 'tzinfo')
 
     # Check for a from timezone
@@ -578,6 +590,7 @@ def timezone():
 
     .. versionadded:: 0.1.0
     """
+
     # Check for the time zone:
     # 1. as an environment settings (most likely not)
     # 2. in /etc/timezone (hopefully)
@@ -591,6 +604,7 @@ def timezone():
 
 def _timezone_from_env():
     """ get the system time zone from os.environ """
+
     if 'TZ' in os.environ:
         try:
             return pytz.timezone(os.environ['TZ'])
@@ -602,6 +616,7 @@ def _timezone_from_env():
 
 def _timezone_from_etc_localtime():
     """ get the system time zone from /etc/loclatime """
+
     matches = []
     if os.path.exists('/etc/localtime'):
         localtime = pytz.tzfile.build_tzinfo('/etc/localtime',
@@ -636,6 +651,7 @@ def _timezone_from_etc_localtime():
 
 def _timezone_from_etc_timezone():
     """ get the system time zone from /etc/timezone """
+
     if os.path.exists('/etc/timezone'):
         tz = open('/etc/timezone').read().strip()
         try:
@@ -651,10 +667,12 @@ def timezone_object(tz_name=None):
 
     :param tz_name: The name of the time zone.
     :type tz_name: str.
-    :returns: datetime.tzinfo -- the time zone, defaults to system time zone.
+    :returns: datetime.tzinfo -- the time zone, defaults to system time
+              zone.
 
     .. versionadded:: 0.1.0
     """
+
     return pytz.timezone(tz_name if tz_name else timezone())
 
 
@@ -665,6 +683,7 @@ def today():
 
     .. versionadded:: 0.1.0
     """
+
     return datetime.date.today()
 
 
@@ -675,6 +694,7 @@ def tomorrow():
 
     .. versionadded:: 0.1.0
     """
+
     return datetime.date.today() + datetime.timedelta(days=1)
 
 
@@ -687,6 +707,7 @@ def unset_utc():
 
     .. versionadded:: 0.1.0
     """
+
     global _FORCE_UTC  # Causes pylint W0603
     _FORCE_UTC = False
 
@@ -698,4 +719,5 @@ def yesterday():
 
     .. versionadded:: 0.1.0
     """
+
     return datetime.date.today() - datetime.timedelta(days=1)
