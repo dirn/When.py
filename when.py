@@ -615,7 +615,7 @@ def _timezone_from_env():
 
 
 def _timezone_from_etc_localtime():
-    """ get the system time zone from /etc/loclatime """
+    """ get the system time zone from /etc/localtime """
 
     matches = []
     if os.path.exists('/etc/localtime'):
