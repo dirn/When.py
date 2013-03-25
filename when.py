@@ -70,6 +70,36 @@ formats.__doc__ = """A set of predefined datetime formats.
 
 def _add_time(value, years=0, months=0, weeks=0, days=0, hours=0, minutes=0,
               seconds=0, milliseconds=0, microseconds=0):
+    """Adds units of time to a datetime.
+
+    This function creates a :class:`~datetime.timedelta` instance from
+    the parameters passed info it and adds it to ``value``. The
+    parameters not supported by :class:`~datetime.timedelta`--``months``
+    and ``years``--are then applied to ``value``.
+
+    :param value: The original datetime.
+    :type value: datetime.datetime, datetime.date, datetime.time.
+    :param years: The number of years to add to ``value``.
+    :type years: int.
+    :param months: The number of months to add to ``value``.
+    :type months: int.
+    :param weeks: The number of weeks to add to ``value``.
+    :type weeks: int.
+    :param days: The number of days to add to ``value``.
+    :type days: int.
+    :param hours: The number of hours to add to ``value``.
+    :type hours: int.
+    :param minutes: The number of minutes to add to ``value``.
+    :type minutes: int.
+    :param seconds: The number of seconds to add to ``value``.
+    :type seconds: int.
+    :param milliseconds: The number of milliseconds to add to ``value``.
+    :type milliseconds: int.
+    :param microseconds: The number of microseconds to add to ``value``.
+    :type microseconds: int.
+    :returns: str -- the adjusted datetime.
+    :raises: TypeError
+    """
 
     if not _is_date_type(value):
         message = "'{0}' object is not a valid date or time."
