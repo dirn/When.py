@@ -25,7 +25,7 @@ _FORCE_UTC = False
 class _FormatsMetaClass(type):
     """Allows the formats class to be treated as an iterable.
 
-    It is important to understand has this class works.
+    It is important to understand how this class works.
     ``hasattr(formats, 'DATE')`` is true. ``'DATE' in formats` is false.
     ``hasattr(formats, 'D_FMT')`` is false. ``'D_FMT' in formats` is
     true.
