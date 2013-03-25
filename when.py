@@ -70,6 +70,7 @@ formats.__doc__ = """A set of predefined datetime formats.
 
 def _add_time(value, years=0, months=0, weeks=0, days=0, hours=0, minutes=0,
               seconds=0, milliseconds=0, microseconds=0):
+
     assert _is_date_type(value)
 
     # If any of the standard timedelta values are used, use timedelta
