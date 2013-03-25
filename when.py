@@ -152,8 +152,6 @@ def all_timezones():
     This is a wrapper for ``pytz.all_timezones``.
 
     :returns: list -- all time zones.
-
-    .. versionadded:: 0.1.0
     """
 
     return pytz.all_timezones
@@ -165,8 +163,6 @@ def all_timezones_set():
     This is a wrapper for ``pytz.all_timezones_set``.
 
     :returns: set -- all time zones.
-
-    .. versionadded:: 0.1.0
     """
 
     return pytz.all_timezones_set
@@ -178,8 +174,6 @@ def common_timezones():
     This is a wrapper for ``pytz.common_timezones``.
 
     :returns: list -- common time zones.
-
-    .. versionadded:: 0.1.0
     """
 
     return pytz.common_timezones
@@ -191,8 +185,6 @@ def common_timezones_set():
     This is a wrapper for ``pytz.common_timezones_set``.
 
     :returns: set -- common time zones.
-
-    .. versionadded:: 0.1.0
     """
 
     return pytz.common_timezones_set
@@ -314,8 +306,6 @@ def future(years=0, months=0, weeks=0, days=0, hours=0, minutes=0,
     :param utc: Whether or not to use UTC instead of local time.
     :type utc: bool.
     :returns: datetime.datetime -- the calculated datetime.
-
-    .. versionadded:: 0.1.0
     """
 
     return _add_time(now(utc), years=years, months=months, weeks=weeks,
@@ -477,8 +467,6 @@ def now(utc=False):
     :param utc: Whether or not to use UTC instead of local time.
     :type utc: bool.
     :returns: datetime.datetime -- the current datetime.
-
-    .. versionadded:: 0.1.0
     """
 
     if _FORCE_UTC or utc:
@@ -521,8 +509,6 @@ def past(years=0, months=0, weeks=0, days=0, hours=0, minutes=0, seconds=0,
     :param utc: Whether or not to use UTC instead of local time.
     :type utc: bool.
     :returns: datetime.datetime -- the calculated datetime.
-
-    .. versionadded:: 0.1.0
     """
 
     return _add_time(now(utc), years=-years, months=-months, weeks=-weeks,
@@ -538,8 +524,6 @@ def set_utc():
     global setting taking precedence.
 
     This can be reset by calling ``unset_utc()``.
-
-    .. versionadded:: 0.1.0
     """
 
     global _FORCE_UTC  # Causes pylint W0603
@@ -623,8 +607,6 @@ def timezone():
     """Get the name of the current system time zone.
 
     :returns: str -- the name of the system time zone.
-
-    .. versionadded:: 0.1.0
     """
 
     # Check for the time zone:
@@ -705,8 +687,6 @@ def timezone_object(tz_name=None):
     :type tz_name: str.
     :returns: datetime.tzinfo -- the time zone, defaults to system time
               zone.
-
-    .. versionadded:: 0.1.0
     """
 
     return pytz.timezone(tz_name if tz_name else timezone())
@@ -716,8 +696,6 @@ def today():
     """Get a date representing the current date.
 
     :returns: datetime.date -- the current date.
-
-    .. versionadded:: 0.1.0
     """
 
     return datetime.date.today()
@@ -727,8 +705,6 @@ def tomorrow():
     """Get a date representing tomorrow's date.
 
     :returns: datetime.date -- the current date plus one day.
-
-    .. versionadded:: 0.1.0
     """
 
     return datetime.date.today() + datetime.timedelta(days=1)
@@ -740,8 +716,6 @@ def unset_utc():
     The ``utc`` parameter of other methods will be used.
 
     This can be changed by calling ``set_utc()``.
-
-    .. versionadded:: 0.1.0
     """
 
     global _FORCE_UTC  # Causes pylint W0603
@@ -752,8 +726,6 @@ def yesterday():
     """Get a date representing yesterday's date.
 
     :returns: datetime.date -- the current date minus one day.
-
-    .. versionadded:: 0.1.0
     """
 
     return datetime.date.today() - datetime.timedelta(days=1)
