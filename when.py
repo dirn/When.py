@@ -46,8 +46,9 @@ class _FormatsMetaClass(type):
     def __contains__(self, value):
         index = 0
         for attr in dir(_FormatsMetaClass):
-            if not attr.startswith('__') and attr != 'mro' and \
-                    getattr(_FormatsMetaClass, attr) == value:
+            if (not attr.startswith('__')
+                    and attr != 'mro'
+                    and getattr(_FormatsMetaClass, attr) == value):
                 index = attr
                 break
         return index
@@ -67,8 +68,8 @@ formats.__doc__ = """A set of predefined datetime formats.
     """
 
 
-def _add_time(value, years=0, months=0, weeks=0, days=0,
-              hours=0, minutes=0, seconds=0, milliseconds=0, microseconds=0):
+def _add_time(value, years=0, months=0, weeks=0, days=0, hours=0, minutes=0,
+              seconds=0, milliseconds=0, microseconds=0):
     assert _is_date_type(value)
 
     # If any of the standard timedelta values are used, use timedelta
@@ -327,6 +328,7 @@ def how_many_leap_days(from_date, to_date):
 
     .. versionadded:: 0.3.0
     """
+
     if isinstance(from_date, int):
         from_date = datetime.date(from_date, 1, 1)
 
@@ -413,8 +415,8 @@ def is_timezone_aware(value):
     """
 
     assert hasattr(value, 'tzinfo')
-    return value.tzinfo is not None and \
-        value.tzinfo.utcoffset(value) is not None
+
+    return not (value.tzinfo is None or value.tzinfo.utcoffset(value) is None)
 
 
 def is_timezone_naive(value):
@@ -430,6 +432,7 @@ def is_timezone_naive(value):
     """
 
     assert hasattr(value, 'tzinfo')
+
     return value.tzinfo is None or value.tzinfo.utcoffset(value) is None
 
 
