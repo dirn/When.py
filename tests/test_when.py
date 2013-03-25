@@ -81,9 +81,9 @@ class WhenTest(unittest.TestCase):
         result = when._add_time(test_value, years=-1)
         self.assertEqual(result, expected_value)
 
-    def test__add_time_assert(self):
-        """Test AssertionError raised by when._add_time()"""
-        self.assertRaises(AssertionError, when._add_time, 'a')
+    def test__add_time_typeerror(self):
+        """Test TypeError raised by when._add_time()"""
+        self.assertRaises(TypeError, when._add_time, 'a')
 
     def test__is_date_type(self):
         """Test when._is_date_type()"""
@@ -153,9 +153,9 @@ class WhenTest(unittest.TestCase):
             result_time = when.format(current_time, format_string)
             self.assertEqual(builtin_time, result_time)
 
-    def test_format_assert(self):
-        """Test AssertionError raised by when.format()"""
-        self.assertRaises(AssertionError, when.format, 'a', '%a')
+    def test_format_typeerror(self):
+        """Test TypeError raised by when.format()"""
+        self.assertRaises(TypeError, when.format, 'a', '%a')
 
     def test_formats(self):
         """Test the iteration of the formats class"""
@@ -244,17 +244,23 @@ class WhenTest(unittest.TestCase):
         # and 2800 need to be added back in. 250 - (10 - 3) = 243
         self.assertEqual(when.how_many_leap_days(dt1, d2), 243)
 
-    def test_how_many_leap_days_assert(self):
-        """Test AssertionError raised by when.how_many_leap_days()"""
+    def test_how_many_leap_days_typeerror(self):
+        """Test TypeError raised by when.how_many_leap_days()"""
         d1 = when.today()
         d2 = when.yesterday()
 
         # from_date must be valid
-        self.assertRaises(AssertionError, when.how_many_leap_days, 'a', d2)
+        self.assertRaises(TypeError, when.how_many_leap_days, 'a', d2)
         # to_date must be valid
-        self.assertRaises(AssertionError, when.how_many_leap_days, d1, 'b')
+        self.assertRaises(TypeError, when.how_many_leap_days, d1, 'b')
+
+    def test_how_many_leap_days_valueerror(self):
+        """Test ValueError raised by when.how_many_leap_days()"""
+        d1 = when.today()
+        d2 = when.yesterday()
+
         # from_date must be before to_date
-        self.assertRaises(AssertionError, when.how_many_leap_days, d1, d2)
+        self.assertRaises(ValueError, when.how_many_leap_days, d1, d2)
 
     def test_is_timezone_aware(self):
         """Test when.is_timezone_aware()"""
@@ -270,10 +276,10 @@ class WhenTest(unittest.TestCase):
         self.assertTrue(when.is_timezone_aware(aware))
         self.assertFalse(when.is_timezone_aware(naive))
 
-    def test_is_timezone_aware_assert(self):
-        """Test AssertionError raised by when.is_timezone_aware()"""
+    def test_is_timezone_aware_typeerror(self):
+        """Test TypeError raised by when.is_timezone_aware()"""
         today = when.today()
-        self.assertRaises(AssertionError, when.is_timezone_aware, today)
+        self.assertRaises(TypeError, when.is_timezone_aware, today)
 
     def test_is_timezone_naive(self):
         """Test when.is_timezone_naive()"""
@@ -289,10 +295,10 @@ class WhenTest(unittest.TestCase):
         self.assertTrue(when.is_timezone_naive(naive))
         self.assertFalse(when.is_timezone_naive(aware))
 
-    def test_is_timezone_aware_naive(self):
-        """Test AssertionError raised by when.is_timezone_naive()"""
+    def test_is_timezone_naive_typeerror(self):
+        """Test TypeError raised by when.is_timezone_naive()"""
         today = when.today()
-        self.assertRaises(AssertionError, when.is_timezone_aware, today)
+        self.assertRaises(TypeError, when.is_timezone_aware, today)
 
     def test_now(self):
         """Test when.now()"""
@@ -351,10 +357,10 @@ class WhenTest(unittest.TestCase):
         self.assertNotEqual(first, self.utc)
         self.assertEqual(second, self.utc)
 
-    def test_shift_assert(self):
-        """Test AssertionError raised by when.shift()"""
-        self.assertRaises(AssertionError, when.shift, 'a')
-        self.assertRaises(AssertionError, when.shift, when.today())
+    def test_shift_typeerror(self):
+        """Test TypeError raised by when.shift()"""
+        self.assertRaises(TypeError, when.shift, 'a')
+        self.assertRaises(TypeError, when.shift, when.today())
 
     def test_shift_aware(self):
         """Test when.shift() for time zone aware datetimes"""

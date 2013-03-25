@@ -71,7 +71,9 @@ formats.__doc__ = """A set of predefined datetime formats.
 def _add_time(value, years=0, months=0, weeks=0, days=0, hours=0, minutes=0,
               seconds=0, milliseconds=0, microseconds=0):
 
-    assert _is_date_type(value)
+    if not _is_date_type(value):
+        message = "'{0}' object is not a valid date or time."
+        raise TypeError(message.format(type(value).__name__))
 
     # If any of the standard timedelta values are used, use timedelta
     # for them.
@@ -256,12 +258,17 @@ def format(value, format_string):
                           or to use.
     :type format_string: str.
     :returns: str -- the formatted datetime.
-    :raises: AssertionError
+    :raises: TypeError
+
+    .. versionchanged:: 0.4.0
+       ``TypeError`` is now raised
 
     .. versionadded:: 0.3.0
     """
 
-    assert _is_date_type(value)
+    if not _is_date_type(value):
+        message = "'{0}' object is not a valid date or time."
+        raise TypeError(message.format(type(value).__name__))
 
     # Check to see if `format_string` is a value from the `formats`
     # class. If it is, obtain the real value from
@@ -326,6 +333,11 @@ def how_many_leap_days(from_date, to_date):
                     will use January 1.
     :type to_date: datetime.datetime, datetime.date
     :returns: int -- the number of leap days.
+    :raises: TypeError, ValueError
+
+    .. versionchanged:: 0.4.0
+       ``TypeError`` is now raised
+       ``ValueError`` is now raised
 
     .. versionadded:: 0.3.0
     """
@@ -336,9 +348,12 @@ def how_many_leap_days(from_date, to_date):
     if isinstance(to_date, int):
         to_date = datetime.date(to_date, 1, 1)
 
-    assert _is_date_type(from_date) and \
-        not isinstance(from_date, datetime.time)
-    assert _is_date_type(to_date) and not isinstance(to_date, datetime.time)
+    if not _is_date_type(from_date):
+        message = "'{0}' object is not a valid date or time."
+        raise TypeError(message.format(type(from_date).__name__))
+    if not _is_date_type(to_date):
+        message = "'{0}' object is not a valid date or time."
+        raise TypeError(message.format(type(to_date).__name__))
 
     # Both `from_date` and `to_date` need to be of the same type.
     # Since both `datetime.date` and `datetime.datetime` will pass the
@@ -349,7 +364,10 @@ def how_many_leap_days(from_date, to_date):
     if isinstance(to_date, datetime.datetime):
         to_date = to_date.date()
 
-    assert from_date <= to_date
+    if from_date > to_date:
+        message = ("The value of 'from_date' must be before the value of "
+                   "'to_date'.")
+        raise ValueError(message)
 
     number_of_leaps = calendar.leapdays(from_date.year, to_date.year)
 
@@ -411,11 +429,17 @@ def is_timezone_aware(value):
     :param value: A valid datetime object.
     :type value: datetime.datetime, datetime.time
     :returns: bool -- if the object is time zone aware.
+    :raises: TypeError
+
+    .. versionchanged:: 0.4.0
+       ``TypeError`` is raised
 
     .. versionadded:: 0.3.0
     """
 
-    assert hasattr(value, 'tzinfo')
+    if not hasattr(value, 'tzinfo'):
+        message =  "'{0}' object is not a valid time."
+        raise TypeError(message.format(type(value).__name__))
 
     return not (value.tzinfo is None or value.tzinfo.utcoffset(value) is None)
 
@@ -428,11 +452,17 @@ def is_timezone_naive(value):
     :param value: A valid datetime object.
     :type value: datetime.datetime, datetime.time
     :returns: bool -- if the object is time zone naive.
+    :raises: TypeError
+
+    .. versionchanged:: 0.4.0
+       ``TypeError`` is now raised
 
     .. versionadded:: 0.3.0
     """
 
-    assert hasattr(value, 'tzinfo')
+    if not hasattr(value, 'tzinfo'):
+        message =  "'{0}' object is not a valid time."
+        raise TypeError(message.format(type(value).__name__))
 
     return value.tzinfo is None or value.tzinfo.utcoffset(value) is None
 
@@ -540,13 +570,15 @@ def shift(value, from_tz=None, to_tz=None, utc=False):
     :param utc: Whether or not to use UTC instead of local time.
     :type utc: bool.
     :returns: datetime.datetime -- the calculated datetime.
-    :raises: AssertionError
+    :raises: TypeError
 
-    .. versionchanged:: 0.3.0
-       Added AssertionError for invalid values of ``value``
+    .. versionchanged:: 0.4.0
+       ``TypeError`` is now raised
     """
 
-    assert hasattr(value, 'tzinfo')
+    if not hasattr(value, 'tzinfo'):
+        message =  "'{0}' object is not a valid time."
+        raise TypeError(message.format(type(value).__name__))
 
     # Check for a from timezone
     # If the datetime is time zone aware, its time zone should be used. If it's
