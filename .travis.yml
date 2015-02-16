@@ -13,6 +13,7 @@ env:
   - TIMEZONE=Etc/UTC TOXENV=py34
   - TIMEZONE=Etc/UTC TOXENV=pypy
   - TIMEZONE=Etc/UTC TOXENV=pypy3
+  - TIMEZONE=Etc/UTC TOXENV=coverage
 install:
   - pip install nose
   - pip install coverage
