@@ -6,12 +6,12 @@ install:
 script:
   - tox
 env:
-  - TIMEZONE=Etc/UTC TOXENV=py26
-  - TIMEZONE=Etc/UTC TOXENV=py27
-  - TIMEZONE=Etc/UTC TOXENV=py32
-  - TIMEZONE=Etc/UTC TOXENV=py33
-  - TIMEZONE=Etc/UTC TOXENV=py34
-  - TIMEZONE=Etc/UTC TOXENV=pypy
-  - TIMEZONE=Etc/UTC TOXENV=pypy3
-  - TIMEZONE=Etc/UTC TOXENV=coverage
+  - TOXENV=py26
+  - TOXENV=py27
+  - TOXENV=py32
+  - TOXENV=py33
+  - TOXENV=py34
+  - TOXENV=pypy
+  - TOXENV=pypy3
+  - TOXENV=coverage
 sudo: false
