@@ -14,9 +14,4 @@ env:
   - TIMEZONE=Etc/UTC TOXENV=pypy
   - TIMEZONE=Etc/UTC TOXENV=pypy3
   - TIMEZONE=Etc/UTC TOXENV=coverage
-install:
-  - pip install nose
-  - pip install coverage
-  - pip install mock
-  - pip install .
 sudo: false
