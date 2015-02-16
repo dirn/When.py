@@ -2,14 +2,19 @@
 When.py: Friendly Dates and Times
 =================================
 
-Production: |travismaster|
+Production: |travismaster| |coverallsmaster|
 
-Development: |travisdevelop|
+Development: |travisdevelop| |coverallsdevelop|
 
 .. |travismaster| image:: https://secure.travis-ci.org/dirn/When.py.png?branch=master
    :target: http://travis-ci.org/dirn/When.py
 .. |travisdevelop| image:: https://secure.travis-ci.org/dirn/When.py.png?branch=develop
    :target: http://travis-ci.org/dirn/When.py
+
+.. |coverallsmaster| image:: https://coveralls.io/repos/dirn/When.py/badge.svg?branch=master
+   :target: https://coveralls.io/r/dirn/When.py?branch=master
+.. |coverallsdevelop| image:: https://coveralls.io/repos/dirn/When.py/badge.svg?branch=develop
+   :target: https://coveralls.io/r/dirn/When.py?branch=develop
 
 User-friendly functions to help perform common date and time actions.
 
