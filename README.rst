@@ -2,21 +2,22 @@
 When.py: Friendly Dates and Times
 =================================
 
-Production: |travismaster| |coverallsmaster|
-
-Development: |travisdevelop| |coverallsdevelop|
+|travismaster| |coverallsmaster|
 
 .. |travismaster| image:: https://secure.travis-ci.org/dirn/When.py.png?branch=master
-   :target: http://travis-ci.org/dirn/When.py
-.. |travisdevelop| image:: https://secure.travis-ci.org/dirn/When.py.png?branch=develop
    :target: http://travis-ci.org/dirn/When.py
 
 .. |coverallsmaster| image:: https://coveralls.io/repos/dirn/When.py/badge.svg?branch=master
    :target: https://coveralls.io/r/dirn/When.py?branch=master
-.. |coverallsdevelop| image:: https://coveralls.io/repos/dirn/When.py/badge.svg?branch=develop
-   :target: https://coveralls.io/r/dirn/When.py?branch=develop
 
 User-friendly functions to help perform common date and time actions.
+
+Installation
+============
+
+Installing When.py is easy::
+
+    python -m pip install whenpy
 
 Usage
 =====
@@ -51,15 +52,4 @@ To get the current time::
 
 Full documentation can be found on `Read the Docs`_.
 
-.. _Read the Docs: http://readthedocs.org/docs/whenpy/en/latest/
-
-Installation
-============
-
-Installing When.py is easy::
-
-    pip install whenpy
-
-or download the source and run::
-
-    python setup.py install
+.. _Read the Docs: http://whenpy.rtfd.org

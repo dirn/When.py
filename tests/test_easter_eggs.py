@@ -1,17 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-import unittest
-
 import datetime
-import mock
-import os
-import sys
+import unittest
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 import when
-
-sys.path.insert(0, os.path.abspath('..'))
-sys.path.append('.')
 
 
 class WhenEasterEggTest(unittest.TestCase):
@@ -36,6 +30,3 @@ class WhenEasterEggTest(unittest.TestCase):
             mock_now.return_value = datetime.datetime(2012, 9, 3, 18)
             countdown = when.is_5_oclock()
             self.assertTrue(countdown.days < 0)
-
-if __name__ == '__main__':
-    unittest.main()
