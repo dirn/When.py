@@ -667,11 +667,23 @@ def _timezone_from_etc_localtime():
 
     matches = []
     if os.path.exists('/etc/localtime'):
-        localtime = pytz.tzfile.build_tzinfo('/etc/localtime',
-                                             open('/etc/localtime'))
+        path = '/etc/localtime'
+        realpath = os.path.realpath(path)
+        # On OSX 10.9.5, using just /etc/localtime without resolving the
+        # realpath leads to the returned timezone being "/etc/localtime".
+        localtime = pytz.tzfile.build_tzinfo(realpath,
+                                             open(realpath))
 
         for tzname in pytz.all_timezones:
             tz = pytz.timezone(tzname)
+
+            if localtime.zone.endswith(tz.zone):
+                # Continuing with the OSX 10.9.5 example, the comparisons below
+                # continue incorrectly when comparing localtime._transition_info
+                # with tz._transition_info, as the tz version has one
+                # more entry than the localtime version.
+                matches.append(tz.zone)
+                continue
 
             if dir(tz) != dir(localtime):
                 continue
