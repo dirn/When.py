@@ -2,6 +2,10 @@
 When.py: Friendly Dates and Times
 =================================
 
+.. image:: http://unmaintained.tech/badge.svg
+   :target: http://unmaintained.tech/
+   :alt: No Maintenance Intended
+
 Production: |travismaster| |coverallsmaster|
 
 Development: |travisdevelop| |coverallsdevelop|
